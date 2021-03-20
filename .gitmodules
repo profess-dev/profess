@@ -1,0 +1,9 @@
+[submodule "external/real-space-electrostatic-sum"]
+	path = external/real-space-electrostatic-sum
+	url = https://github.com/wcwitt/real-space-electrostatic-sum
+[submodule "external/deft"]
+	path = external/deft
+	url = https://github.com/wcwitt/deft
+[submodule "external/libKEDF"]
+	path = external/libKEDF
+	url = https://github.com/EACcodes/libKEDF
