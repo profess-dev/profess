@@ -209,7 +209,10 @@ class TestFunctional(unittest.TestCase):
                         [0.8, 0.8, 0.8]])
         w = 3.0
         density = deft.array_from_lattice_sum(
-            shape, box, np.array([[0,0,0]]), lambda k: np.exp(-k*k/(4.0*w)))
+            shape,
+            box,
+            np.array([[0,0,0]]),
+            lambda x,y,z: np.exp(-(x*x+y*y+z*z)/(4.0*w)))
         # choose functional parameters
         a = 1.0
         b = 1.0

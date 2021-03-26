@@ -171,7 +171,12 @@ void IonElectron::_update_potential()
         }
         // get potential from ions of type i
         _potential += array_from_lattice_sum(
-            _potential.shape(), _box, loc, _ions.ft_potentials()[i]);
+            _potential.shape(),
+            _box,
+            loc,
+            [this, i](double x, double y, double z) {
+                return _ions.ft_potentials()[i](std::sqrt(x*x+y*y+z*z));
+            });
     }
 }
 
