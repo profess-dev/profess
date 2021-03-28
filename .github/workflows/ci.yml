@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create/activate conda environment and install dependencies
+        run: |
+          conda create --name profess cmake python=3 numpy scipy
+          eval "$(conda shell.bash hook)" && conda activate profess
+          conda install -c conda-forge libxc armadillo fftw
+      - name: Check out profess
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Configure and build
+        run: |
+          eval "$(conda shell.bash hook)" && conda activate profess
+          mkdir build && cd build
+          cmake \
+            -DLIBXC_INCLUDE_DIR=/usr/share/miniconda/envs/profess/include \
+            -DLIBXC_LIBRARY_DIR=/usr/share/miniconda/envs/profess/lib \
+            ..
+          make
+          export PYTHONPATH=$PYTHONPATH:$PWD
+      - name: Run tests
+        run: |
+          eval "$(conda shell.bash hook)" && conda activate profess
+          cd test
+          python -m unittest

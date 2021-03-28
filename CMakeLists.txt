@@ -55,6 +55,8 @@ set(OPENMP "OFF" CACHE STRING "")
 set(OPENCL "OFF" CACHE STRING "")
 set(MPI    "OFF" CACHE STRING "")
 add_subdirectory(external/libKEDF)
+target_compile_options(KEDF PRIVATE -Wno-error)
+target_compile_options(KEDFClient PRIVATE -Wno-error) # delete eventually
 target_include_directories(profess PUBLIC external/libKEDF/include)
 target_link_libraries(profess PUBLIC KEDF)
 
