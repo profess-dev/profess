@@ -59,8 +59,8 @@ target_include_directories(profess PUBLIC external/libKEDF/include)
 target_link_libraries(profess PUBLIC KEDF)
 
 # libxc
-target_include_directories(profess PUBLIC PATH_TO_LIBXC_INCLUDE)
-target_link_directories(profess PUBLIC PATH_TO_LIBXC_LIB)
+target_include_directories(profess PUBLIC ${LIBXC_INCLUDE_DIR})
+target_link_directories(profess PUBLIC ${LIBXC_LIBRARY_DIR})
 target_link_libraries(profess PUBLIC xc)
 
 # pyrofess
