@@ -7,3 +7,6 @@
 [submodule "external/libKEDF"]
 	path = external/libKEDF
 	url = https://github.com/EACcodes/libKEDF
+[submodule "external/ase"]
+	path = external/ase
+	url = https://gitlab.com/wcwitt/ase

@@ -5,6 +5,8 @@ import numpy as np
 import os
 import sys
 
+sys.path.append(os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), '../external/ase/'))
 from ase import Atoms
 from ase.optimize import BFGS, BFGSLineSearch, LBFGS, LBFGSLineSearch
 from ase.calculators.profess import Profess
