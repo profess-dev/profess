@@ -57,7 +57,7 @@ public:
     System& add_ion_electron_functional();
     System& add_luo_karasiev_trickey_functional(double a=1.3,
                                                 double tiny_den=1e-12);
-    System& add_libxc_functional(std::vector<int>);
+    System& add_libxc_functional(std::vector<int> xc_func_ids);
     System& add_kinetic_class_a_functional(
         double a,
         double b,
@@ -92,7 +92,7 @@ public:
     double total_ion_charge();
 
     // basic manipulations
-    System& distribute_electrons_uniformly(const double electrons);
+    System& add_electrons(double electrons);
     System& move_ions(
             std::vector<std::array<double,3>> xyz_coords,
             std::string length_unit={"b"});

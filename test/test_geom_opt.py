@@ -33,7 +33,7 @@ class TestGeomOpt(unittest.TestCase):
                .add_perdew_burke_ernzerhof_functional()
                .add_wang_teter_functional()
         )
-        system.distribute_electrons_uniformly(system.total_ion_charge())
+        system.add_electrons(system.total_ion_charge())
         system.minimize_energy()
         energy = system.energy()
         # peturb ions, then restore by minimizing forces, keeping box fixed

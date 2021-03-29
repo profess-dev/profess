@@ -33,15 +33,18 @@ PYBIND11_MODULE(profess, m) {
             "energy",
             &System::energy,
             R"(
-               energy(unit='h')
+                energy(unit='h')
+                
+                Compute total energy.
+                
+                Parameters
+                ----------
+                unit : str
+                    energy unit
 
-               compute system energy.
-
-               Args:
-                   unit (str): energy unit
-
-               Returns:
-                   energy (float)
+                Returns
+                -------
+                total energy
             )",
             py::arg("unit")=std::string{"h"})
 
@@ -49,15 +52,18 @@ PYBIND11_MODULE(profess, m) {
             "enthalpy",
             &System::enthalpy,
             R"(
-               enthalpy(unit='h')
+                enthalpy(unit='h')
 
-               compute system enthalpy.
-
-               Args:
-                   unit (str): energy unit
-
-               Returns:
-                   energy (float)
+                Compute total enthalpy.
+                
+                Parameters
+                ----------
+                unit : str
+                    enthalpy unit
+                
+                Returns
+                -------
+                total enthalpy
             )",
             py::arg("unit")=std::string{"h"})
 
@@ -65,99 +71,129 @@ PYBIND11_MODULE(profess, m) {
             "forces",
             &System::forces,
             R"(
-               forces(unit=?)
-
-               compute forces on ions.
-
-               Args:
-                   unit (?): ?
-
-               Returns:
-                   forces (2darray): 
+                forces(unit=?)
+                
+                Compute forces on ions.
+                
+                Parameters
+                ----------
+                unit : str
+                    force unit
+                
+                Returns
+                -------
+                forces : list of lists
             )")
 
-        .def("stress",
-             &System::stress,
-             R"(
-                stress(unit)
+        .def(
+            "stress",
+            &System::stress,
+            R"(
+                stress(unit='h/b3')
 
-                compute stress tensor.
+                Compute stress tensor.
 
-                Args:
-                    unit (str)
+                Parameters
+                ----------
+                unit : str
+                    stress unit
 
-                Returns:
-                    stress (array)
-             )",
-             py::arg("unit")=std::string{"h/b3"})
+                Returns
+                -------
+                stress : list of lists
+            )",
+            py::arg("unit")=std::string{"h/b3"})
 
-        .def("pressure",
-             &System::pressure,
-             R"(
-                pressure(unit)
+        .def(
+            "pressure",
+            &System::pressure,
+            R"(
+                pressure(unit='h/b3')
+                
+                Compute total pressure.
+                
+                Parameters
+                ----------
+                unit : str
+                    stress unit
+                
+                Returns
+                -------
+                pressure : float
+                    total pressure
+            )",
+            py::arg("unit")=std::string{"h/b3"})
 
-                compute system pressure.
+        .def(
+            "volume",
+            &System::volume,
+            R"(
+                volume(unit='b3')
+                
+                Box volume.
+                
+                Parameters
+                ----------
+                unit : str
+                    volume unit
+                
+                Returns
+                -------
+                volume : float
+                    box volume
+            )",
+            py::arg("unit")=std::string{"b3"})
 
-                Args:
-                    unit (str)
-
-                Returns:
-                    pressure (float)
-             )",
-             py::arg("unit")=std::string{"h/b3"})
-
-        .def("volume",
-             &System::volume,
-             R"(
-                volume(unit)
-
-                report current volume.
-
-                Args:
-                    unit (str)
-
-                Returns:
-                    volume (float)
-             )",
-             py::arg("unit")=std::string{"b3"})
-
-        .def("box_vectors",
-             &System::box_vectors,
-             R"(
+        .def(
+            "box_vectors",
+            &System::box_vectors,
+            R"(
                 box_vectors(unit='b')
-
-                report current box vectors (cell vectors).
-
-                Args:
-                    unit (str)
-
-                Returns:
-                    box_vectors (numpy array)
-             )",
-             py::arg("unit")=std::string{"b"})
+                
+                Box vectors (cell vectors).
+                
+                Parameters
+                ----------
+                unit : str
+                    length unit
+                
+                Returns
+                -------
+                box_vectors : list of lists
+                    box vectors
+            )",
+            py::arg("unit")=std::string{"b"})
 
         .def_readonly(
             "grid_shape",
             &System::grid_shape,
             R"(
-                 grid_shape()
-
-                 report grid size along all three dimensions.
-
-                 Returns:
-                     grid_shape (numpy array)
+                grid_shape()
+                
+                Grid size along all three dimensions.
+                
+                Returns
+                -------
+                grid_shape (numpy array)
              )")
 
         .def(
             "energy_cutoff",
             &System::energy_cutoff,
             R"(
-               energy_cutoff(unit)
-
-               report plane wave cutoff for the current grid.
-
-               Returns:
-                   energy_cutoff (float)
+                energy_cutoff(unit='h')
+                
+                Plane wave cutoff for the current grid.
+                
+                Parameters
+                ----------
+                unit : str
+                    energy unit
+                
+                Returns
+                -------
+                energy_cutoff : float
+                    cutoff energy
             )",
             py::arg("unit")=std::string{"h"})
 
@@ -165,160 +201,423 @@ PYBIND11_MODULE(profess, m) {
             "total_ion_charge",
             &System::total_ion_charge,
             R"(
-                total ion charge doc.
+                total_ion_charge
+
+                Total ion charge.
+
+                Returns
+                -------
+                total_ion_charge : float
+                    sum of ion charges
             )")
 
-        .def("ions_xyz_coords",
-             &System::ions_xyz_coords,
-             R"(
-                ions_xyz_coords(unit)
-
-                cartesian coordinates of ions.
-
-                Args:
-                    unit (str)
-
-                Returns:
-                    ions_xyz_coords (numpy array)
-             )",
-             py::arg("unit")=std::string{"b"})
+        .def(
+            "ions_xyz_coords",
+            &System::ions_xyz_coords,
+            R"(
+                ions_xyz_coords(unit='b')
+                
+                Cartesian coordinates of ions.
+                
+                Parameters
+                ----------
+                unit : str
+                     length unit
+                
+                Returns
+                -------
+                ions_xyz_coords : list of lists
+                     ion coordinates
+            )",
+            py::arg("unit")=std::string{"b"})
 
         .def_readwrite(
             "electron_density",
             &System::electron_density,
             R"(
-                electron_density()
-
-                electron density on a grid.
-
-                Args:
-                    unit (str)
-
-                Returns:
-                    electron_density (numpy array)
+                electron_density
+                
+                Electron density on a grid.
+                
+                Parameters
+                ----------
+                unit : str
+                    density unit
+                
+                Returns
+                -------
+                electron_density : deft array
+                    electron density
             )")
 
         // -----------------
         // modify the system
         // -----------------
 
-        .def("add_ions",
-             &System::add_ions,
-             py::arg("filename"),
-             py::arg("coords"),
-             py::arg("units")=std::string{"b"})
+        .def(
+            "add_ions",
+            &System::add_ions,
+            R"(
+                add_ions
 
-        .def("add_coulomb_ions",
-             &System::add_coulomb_ions,
-             py::arg("z"),
-             py::arg("coords"),
-             py::arg("units")=std::string{"b"})
+                Add ions to the system.
 
-        .def("add_hartree_functional", &System::add_hartree_functional)
+                Parameters
+                ----------
+                filename : str
+                    pseudopotential file
+                coords : 2d array
+                    Cartesian coordinates of ions
+                unit : str
+                    length unit
 
-        .def("add_huang_carter_functional",
-             &System::add_huang_carter_functional,
-             py::arg("den0"))
+                Returns
+                -------
+                profess system
+            )",
+            py::arg("filename"),
+            py::arg("coords"),
+            py::arg("units")=std::string{"b"})
 
-        .def("add_ion_electron_functional",
-             &System::add_ion_electron_functional)
+        .def(
+            "add_coulomb_ions",
+            &System::add_coulomb_ions,
+            R"(
+                add_coulomb_ions
 
-        .def("add_luo_karasiev_trickey_functional",
-             &System::add_luo_karasiev_trickey_functional,
-             py::arg("a")=1.3,
-             py::arg("tiny_den")=1e-12)
+                Add Coulomb ions to the system.
 
-        .def("add_libxc_functional",
-             py::overload_cast<std::vector<int>>
-                 (&System::add_libxc_functional))
+                Parameters
+                ----------
+                z : float
+                    ion charge
+                coords : 2d array
+                    Cartesian coordinates of ions
+                unit : str
+                    length unit
 
-        .def("add_kinetic_class_a_functional",
-             &System::add_kinetic_class_a_functional,
-             py::arg("a"),
-             py::arg("b"),
-             py::arg("f"),
-             py::arg("fp"),
-             py::arg("den0")=-1)
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("z"),
+            py::arg("coords"),
+            py::arg("units")=std::string{"b"})
 
-        .def("add_perdew_burke_ernzerhof_functional",
-              &System::add_perdew_burke_ernzerhof_functional)
+        .def(
+            "add_harmonic_ions",
+            &System::add_harmonic_ions,
+            R"(
+                add_harmonic_ions
 
-        .def("add_perdew_zunger_functional",
-              &System::add_perdew_zunger_functional)
+                Add harmonic ions to the system.
 
-        .def("add_perrot_functional",
-            &System::add_perrot_functional,
+                Returns
+                -------
+                system : profess.System
+            )")
+
+        .def(
+            "add_hartree_functional",
+            &System::add_hartree_functional,
+            R"(
+                add_hartree_functional
+
+                Add Hartree functional.
+
+                Returns
+                -------
+                system : profess.System
+            )")
+
+        .def(
+            "add_huang_carter_functional",
+            &System::add_huang_carter_functional,
+            R"(
+                add_huang_carter_functional
+
+                Add Huang Carter kinetic energy functional.
+
+                Parameters
+                ----------
+                den0 : float
+                    uniform reference density
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("den0"))
+
+        .def(
+            "add_ion_electron_functional",
+            &System::add_ion_electron_functional,
+            R"(
+                add_ion_electron_functional
+
+                Add ion-electron interaction functional.
+
+                Returns
+                -------
+                system : profess.System
+            )")
+
+        .def(
+            "add_luo_karasiev_trickey_functional",
+            &System::add_luo_karasiev_trickey_functional,
+            R"(
+                add_luo_karasiev_trickey_functional
+
+                Add Luo-Karasiev-Trickey kinetic energy functional.
+
+                Parameters
+                ----------
+                a : float
+                tiny_den : float
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("a")=1.3,
+            py::arg("tiny_den")=1e-12)
+
+        .def(
+            "add_libxc_functional",
+            py::overload_cast<std::vector<int>>(&System::add_libxc_functional),
+            R"(
+                add_libxc_functional
+
+                Add libxc exchange-correlation functional.
+
+                Parameters
+                ----------
+                xc_func_ids : list of int
+                    libxc ids
+
+                Returns
+                -------
+                system : profess.System
+            )")
+
+        .def(
+            "add_kinetic_class_a_functional",
+            &System::add_kinetic_class_a_functional,
+            R"(
+                add_kinetic_class_a_functional(a,b,f,fp,den0=-1)
+
+                Add a generic kinetic energy functional of type A.
+
+                Parameters
+                ----------
+                a : float
+                    exponent a
+                b : float
+                    exponent b
+                f : function
+                    f(x)
+                fp : function
+                    f'(x)
+                den0 : float, optional
+                    uniform reference density
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("a"),
+            py::arg("b"),
+            py::arg("f"),
+            py::arg("fp"),
             py::arg("den0")=-1)
 
-        .def("add_smargiassi_madden_functional",
-             &System::add_smargiassi_madden_functional,
-             py::arg("den0")=-1)
+        .def(
+            "add_perdew_burke_ernzerhof_functional",
+            &System::add_perdew_burke_ernzerhof_functional,
+            R"(
+                add_perdew_burke_ernzerhof_functional
 
-        .def("add_thomas_fermi_functional",
-             &System::add_thomas_fermi_functional)
+                Add Perdew-Burke-Ernzerhof generalized gradient approximation exchange-correlation functional.
 
-        .def("add_wang_teter_functional",
-             &System::add_wang_teter_functional,
-             py::arg("den0")=-1)
+                Returns
+                -------
+                system : profess.System
+            )")
 
-        .def("add_wang_govind_carter_functional",
-             &System::add_wang_govind_carter_functional,
-             py::arg("den0"),
-             py::arg("alpha")=(5.0+std::sqrt(5.0))/6.0,
-             py::arg("beta")=(5.0-std::sqrt(5.0))/6.0,
-             py::arg("gamma")=2.7)
+        .def(
+            "add_perdew_zunger_functional",
+            &System::add_perdew_zunger_functional,
+            R"(
+                add_perdew_zunger_functional
 
-        .def("add_wang_govind_carter_1999_i_functional",
-             &System::add_wang_govind_carter_1999_i_functional,
-             py::arg("den0")=-1)
+                Add Perdew-Zunger local density approximation exchange-correlation functional.
 
-        .def("add_weizsaecker_functional",
-             &System::add_weizsaecker_functional)
+                Parameters
+                ----------
 
-        .def("remove_functional",
-             &System::remove_functional)
+                Returns
+                -------
+            )")
 
-        .def("distribute_electrons_uniformly",
-             &System::distribute_electrons_uniformly)
+        .def(
+            "add_perrot_functional",
+            &System::add_perrot_functional,
+            R"(
+                add_perrot_functional
 
-        .def("set_box",
-             &System::set_box,
+                Parameters
+                ----------
+                den0 : float
+                    uniform reference density
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("den0")=-1)
+
+        .def(
+            "add_smargiassi_madden_functional",
+            &System::add_smargiassi_madden_functional,
+            R"(
+                add_smargiassi_madden_functional
+
+                Add Smargiassi-Madden kinetic energy functional.
+
+                Parameters
+                ----------
+                den0 : float
+                    uniform reference density
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("den0")=-1)
+
+        .def(
+            "add_thomas_fermi_functional",
+            &System::add_thomas_fermi_functional,
+            R"(
+                add_thomas_fermi_functional
+
+                Add Thomas-Fermi kinetic energy functional.
+
+                Returns
+                -------
+                system : profess.System
+            )")
+
+        .def(
+            "add_wang_teter_functional",
+            &System::add_wang_teter_functional,
+            R"(
+                add_wang_teter_functional
+
+                Add Wang-Teter kinetic energy functional.
+
+                Parameters
+                ----------
+                den0 : float
+                    uniform reference density
+
+                Returns
+                -------
+            )",
+            py::arg("den0")=-1)
+
+        .def(
+            "add_wang_govind_carter_functional",
+            &System::add_wang_govind_carter_functional,
+            R"(
+                add_wang_govind_carter_functional
+                Parameters
+                ----------
+
+                Returns
+                -------
+            )",
+            py::arg("den0"),
+            py::arg("alpha")=(5.0+std::sqrt(5.0))/6.0,
+            py::arg("beta")=(5.0-std::sqrt(5.0))/6.0,
+            py::arg("gamma")=2.7)
+
+        .def(
+            "add_wang_govind_carter_1999_i_functional",
+            &System::add_wang_govind_carter_1999_i_functional,
+            R"(
+                add_wang_govind_carter_1999_i_functional
+                Parameters
+                ----------
+
+                Returns
+                -------
+            )",
+            py::arg("den0")=-1)
+
+        .def(
+            "add_weizsaecker_functional",
+            &System::add_weizsaecker_functional,
+            R"(
+                add_weizsaecker_functional
+                Parameters
+                ----------
+
+                Returns
+                -------
+            )")
+
+        .def(
+            "remove_functional",
+            &System::remove_functional)
+
+        .def(
+            "add_electrons",
+            &System::add_electrons)
+
+        .def(
+            "set_box",
+            &System::set_box,
              R"(
                 set_box(vectors, unit)
 
                 Set the simulation box
                 
-                Args:
                     vectors (array): box vectors
                     unit (str): length unit
               )",
              py::arg("vectors"),
              py::arg("unit")=std::string{"b"})
 
-        .def("move_ions",
-             &System::move_ions,
-             py::arg("xyz_coords"),
-             py::arg("unit")=std::string{"b"})
+        .def(
+            "move_ions",
+            &System::move_ions,
+            py::arg("xyz_coords"),
+            py::arg("unit")=std::string{"b"})
 
-        .def("minimize_energy", &System::minimize_energy,
-             "varies the electron density to minimize the system's energy",
-             py::arg("energy_tol") = 1e-7,
-             py::arg("window_size") = 3,
-             py::arg("max_iter") = 1000)
+        .def(
+            "minimize_energy",
+            &System::minimize_energy,
+            "varies the electron density to minimize the system's energy",
+            py::arg("energy_tol") = 1e-7,
+            py::arg("window_size") = 3,
+            py::arg("max_iter") = 1000)
 
-        .def("minimize_energy_tpsd", &System::minimize_energy_tpsd,
-             "varies the electron density to minimize the system's energy",
-             py::arg("energy_tol") = 1e-7,
-             py::arg("window_size") = 3,
-             py::arg("max_iter") = 1000)
+        .def(
+            "minimize_energy_tpsd", &System::minimize_energy_tpsd,
+            "varies the electron density to minimize the system's energy",
+            py::arg("energy_tol") = 1e-7,
+            py::arg("window_size") = 3,
+            py::arg("max_iter") = 1000)
 
         // -------------
         // class methods
         // -------------
 
-        .def_static("get_shape",
-                    &System::get_shape,
-                    "Docstring for get_shape");
+        .def_static(
+            "get_shape",
+            &System::get_shape,
+            "Docstring for get_shape");
 }
 
 }

@@ -21,7 +21,7 @@ class TestSystem(unittest.TestCase):
         (system
             .set_box(20*np.eye(3))
             .add_coulomb_ions(1.0, np.zeros([1,3]))
-            .distribute_electrons_uniformly(system.total_ion_charge()))
+            .add_electrons(system.total_ion_charge()))
         (system
             .add_weizsaecker_functional()
             .add_ion_electron_functional()
@@ -38,7 +38,7 @@ class TestSystem(unittest.TestCase):
         system = profess.System(shape)
         system.set_box(box_vectors, 'a')
         system.add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
-        system.distribute_electrons_uniformly(system.total_ion_charge())
+        system.add_electrons(system.total_ion_charge())
         (
         system
             .add_hartree_functional()
@@ -54,7 +54,7 @@ class TestSystem(unittest.TestCase):
         system = profess.System(shape)
         system.set_box(box_vectors, 'a')
         system.add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
-        system.distribute_electrons_uniformly(system.total_ion_charge())
+        system.add_electrons(system.total_ion_charge())
         (
         system
             .add_hartree_functional()
@@ -68,7 +68,7 @@ class TestSystem(unittest.TestCase):
         system = profess.System(shape)
         system.set_box(box_vectors, 'a')
         system.add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
-        system.distribute_electrons_uniformly(system.total_ion_charge())
+        system.add_electrons(system.total_ion_charge())
         den0 = system.total_ion_charge() / system.volume()
         (
         system
@@ -89,7 +89,7 @@ class TestSystem(unittest.TestCase):
             'potentials/li.gga.recpot',
             box_vecs[0,0]*np.array([[0.0,0.0,0.0],[0.5,0.5,0.5]]),
             'a')
-        system.distribute_electrons_uniformly(system.total_ion_charge())
+        system.add_electrons(system.total_ion_charge())
         (
         system
             .add_hartree_functional()

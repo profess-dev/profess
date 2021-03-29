@@ -108,6 +108,11 @@ System& System::add_coulomb_ions(
     return *this;
 }
 
+System& System::add_harmonic_ions()
+{
+    return *this;
+}
+
 std::vector<std::array<double,3>> System::ions_xyz_coords(std::string unit)
 {
     return units::convert_length(ions.xyz_coords(), {"b"}, unit);
@@ -347,7 +352,7 @@ double System::total_ion_charge()
     return ions.count_charge();
 }
 
-System& System::distribute_electrons_uniformly(const double electrons)
+System& System::add_electrons(double electrons)
 {
     electron_density.fill(electrons / box.volume());
     return *this;

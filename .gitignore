@@ -1,4 +1,7 @@
 build
+documentation/build
+documentation/source/user-guide/generated
 external/lbfgs/lbfgs_um
 pyrofess/__pycache__
 test/__pycache__
+.ipynb_checkpoints

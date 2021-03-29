@@ -1,0 +1,16 @@
+/* ----- tighten the autosummary tables ----- */
+
+table.longtable.table.autosummary td {
+    padding : 0;
+}
+
+table.longtable.table.autosummary p {
+    margin-bottom : 0;
+}
+
+/* ----- change ''profess'' settings ----- */
+
+/*code.docutils.literal.notranslate {
+    color : green;
+    font-size : 100% !important
+}*/
