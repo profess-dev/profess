@@ -1,7 +1,6 @@
 # Copyright (c) 2019-2020 William C. Witt
 # SPDX-License-Identifier: MIT
 
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys

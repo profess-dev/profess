@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 import sys
 import unittest
@@ -28,6 +27,7 @@ class TestTools(unittest.TestCase):
         y_exact = f(xx)
         # make plot
         if False:
+            import matplotlib.pyplot as plt
             plt.plot(x, y, 'o')
             plt.plot(xx, y_interp, '.')
             plt.plot(xx, y_exact)
@@ -55,6 +55,7 @@ class TestTools(unittest.TestCase):
         yp_exact = fp(xx)
         # make plot
         if False:
+            import matplotlib.pyplot as plt
             plt.plot(x, yp, 'o')
             plt.plot(xx, yp_interp, '.')
             plt.plot(xx, yp_exact)
