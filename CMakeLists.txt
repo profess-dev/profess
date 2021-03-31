@@ -68,6 +68,7 @@ target_link_libraries(profess PUBLIC xc)
 # pyrofess
 pybind11_add_module(pyrofess MODULE pyrofess/pyrofess.cpp)
 target_link_libraries(pyrofess PUBLIC profess)
+set_target_properties(pyrofess PROPERTIES OUTPUT_NAME profess)
 
 # pyrofess extras
 pybind11_add_module(extras MODULE pyrofess/extras.cpp)

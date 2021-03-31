@@ -12,7 +12,7 @@ import ase_tools
 from tools_for_tests import murnaghan
 sys.path.append(os.path.join(os.path.dirname(
         os.path.abspath(__file__)), '../build/'))
-import pyrofess as profess
+import profess
 
 class TestGeomOpt(unittest.TestCase):
 

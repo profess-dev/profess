@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(
 import pydeft as deft
 sys.path.append(os.path.join(os.path.dirname(
         os.path.abspath(__file__)), '../build/'))
-import pyrofess as profess
+import profess
 
 class TestSystem(unittest.TestCase):
 
