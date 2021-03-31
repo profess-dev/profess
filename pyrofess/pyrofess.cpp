@@ -25,8 +25,6 @@ PYBIND11_MODULE(pyrofess, m) {
 
         // todo: remove
         .def_readwrite("ions", &System::ions)
-        // todo: remove
-        .def_readwrite("box", &System::box)
 
         .def(
             py::init<std::array<size_t,3>>(),

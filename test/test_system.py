@@ -55,7 +55,7 @@ class TestSystem(unittest.TestCase):
         system.set_box(box_vectors, 'a')
         system.ions.add_ion_type_recpot('potentials/al.gga.recpot')
         system.ions.set_ions(np.zeros([1,3]), [0])
-        den0 = system.ions.count_charge() / system.box.volume()
+        den0 = system.ions.count_charge() / system.volume()
         (
         system
             .add_hartree_functional()
@@ -71,7 +71,7 @@ class TestSystem(unittest.TestCase):
         system.set_box(box_vectors, 'a')
         system.ions.add_ion_type_recpot('potentials/al.gga.recpot')
         system.ions.set_ions(np.zeros([1,3]), [0])
-        den0 = system.ions.count_charge() / system.box.volume()
+        den0 = system.ions.count_charge() / system.volume()
         (
         system
             .add_hartree_functional()
@@ -92,7 +92,7 @@ class TestSystem(unittest.TestCase):
             'potentials/li.gga.recpot',
             box_vecs[0,0]*np.array([[0.0,0.0,0.0],[0.5,0.5,0.5]]),
             'a')
-        den0 = system.ions.count_charge() / system.box.volume()
+        den0 = system.ions.count_charge() / system.volume()
         (
         system
             .add_hartree_functional()
