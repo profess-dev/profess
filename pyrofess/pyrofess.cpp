@@ -23,9 +23,6 @@ PYBIND11_MODULE(profess, m) {
 
     py::class_<System>(m, "System")
 
-        // todo: remove
-        .def_readwrite("ions", &System::ions)
-
         .def(
             py::init<std::array<size_t,3>>(),
             R"(
@@ -163,6 +160,13 @@ PYBIND11_MODULE(profess, m) {
                    energy_cutoff (float)
             )",
             py::arg("unit")=std::string{"h"})
+
+        .def(
+            "total_ion_charge",
+            &System::total_ion_charge,
+            R"(
+                total ion charge doc.
+            )")
 
         .def("ions_xyz_coords",
              &System::ions_xyz_coords,

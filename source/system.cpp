@@ -337,6 +337,11 @@ double System::energy_cutoff(std::string unit)
     return units::convert_energy(cutoff, {"h"}, unit);
 }
 
+double System::total_ion_charge()
+{
+    return ions.count_charge();
+}
+
 System& System::distribute_electrons_uniformly(const double electrons)
 {
     electron_density.fill(electrons / box.volume());

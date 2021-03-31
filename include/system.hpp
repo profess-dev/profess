@@ -89,6 +89,7 @@ public:
     double pressure(std::string unit={"h/b3"});
     double enthalpy(std::string unit={"h"});
     double energy_cutoff(std::string unit={"h"});
+    double total_ion_charge();
 
     // basic manipulations
     System& distribute_electrons_uniformly(const double electrons);

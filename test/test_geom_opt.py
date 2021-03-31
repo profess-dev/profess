@@ -26,7 +26,7 @@ class TestGeomOpt(unittest.TestCase):
             'potentials/li.gga.recpot',
             box_vectors[0,0]*np.array([[0,0,0],[0.5,0.5,0.5]]),
             'a')
-        den0 = system.ions.count_charge() / system.volume()
+        den0 = system.total_ion_charge() / system.volume()
         (
         system
                .add_hartree_functional()
@@ -34,7 +34,7 @@ class TestGeomOpt(unittest.TestCase):
                .add_perdew_burke_ernzerhof_functional()
                .add_wang_teter_functional(den0)
         )
-        system.distribute_electrons_uniformly(system.ions.count_charge())
+        system.distribute_electrons_uniformly(system.total_ion_charge())
         system.minimize_energy()
         energy = system.energy()
         # peturb ions, then restore by minimizing forces, keeping box fixed
