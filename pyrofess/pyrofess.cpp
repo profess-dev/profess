@@ -14,12 +14,12 @@ namespace profess
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(pyrofess, m) {
+PYBIND11_MODULE(profess, m) {
     py::options options;
     options.disable_function_signatures();
 
 
-    m.doc() = "pyrofess module documentation";
+    m.doc() = "profess module documentation";
 
     py::class_<System>(m, "System")
 

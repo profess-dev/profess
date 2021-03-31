@@ -65,11 +65,11 @@ target_include_directories(profess PUBLIC ${LIBXC_INCLUDE_DIR})
 target_link_directories(profess PUBLIC ${LIBXC_LIBRARY_DIR})
 target_link_libraries(profess PUBLIC xc)
 
-# pyrofess
-pybind11_add_module(pyrofess MODULE pyrofess/pyrofess.cpp)
-target_link_libraries(pyrofess PUBLIC profess)
-set_target_properties(pyrofess PROPERTIES OUTPUT_NAME profess)
+# profess-pybind
+pybind11_add_module(profess-pybind MODULE pyrofess/pyrofess.cpp)
+target_link_libraries(profess-pybind PUBLIC profess)
+set_target_properties(profess-pybind PROPERTIES OUTPUT_NAME profess)
 
-# pyrofess extras
+# profess-pybind extras
 pybind11_add_module(extras MODULE pyrofess/extras.cpp)
 target_link_libraries(extras PUBLIC profess)
