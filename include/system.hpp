@@ -63,19 +63,19 @@ public:
         double b,
         std::function<double(double)> f,
         std::function<double(double)> fp,
-        double den0);
+        double den0=-1);
     System& add_perdew_burke_ernzerhof_functional();
     System& add_perdew_zunger_functional();
-    System& add_perrot_functional(double den0);
-    System& add_smargiassi_madden_functional(double den0);
+    System& add_perrot_functional(double den0=-1);
+    System& add_smargiassi_madden_functional(double den0=-1);
     System& add_thomas_fermi_functional();
     System& add_wang_govind_carter_functional(
         double den0,
         double alpha=(5.0+std::sqrt(5.0))/6.0,
         double beta=(5.0-std::sqrt(5.0))/6.0,
         double gamma=2.7);
-    System& add_wang_govind_carter_1999_i_functional(double den0);
-    System& add_wang_teter_functional(double den0);
+    System& add_wang_govind_carter_1999_i_functional(double den0=-1);
+    System& add_wang_teter_functional(double den0=-1);
     System& add_weizsaecker_functional();
 
     System& remove_functional(std::string name);

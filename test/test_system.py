@@ -38,6 +38,7 @@ class TestSystem(unittest.TestCase):
         system = profess.System(shape)
         system.set_box(box_vectors, 'a')
         system.add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
+        system.distribute_electrons_uniformly(system.total_ion_charge())
         (
         system
             .add_hartree_functional()
@@ -46,7 +47,6 @@ class TestSystem(unittest.TestCase):
             .add_weizsaecker_functional()
             .add_thomas_fermi_functional()
         )
-        system.distribute_electrons_uniformly(system.total_ion_charge())
         system.minimize_energy()
         self.assertAlmostEqual(system.energy('h'), -2.083724968, places=5)
 
@@ -54,21 +54,21 @@ class TestSystem(unittest.TestCase):
         system = profess.System(shape)
         system.set_box(box_vectors, 'a')
         system.add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
-        den0 = system.total_ion_charge() / system.volume()
+        system.distribute_electrons_uniformly(system.total_ion_charge())
         (
         system
             .add_hartree_functional()
             .add_ion_electron_functional()
             .add_perdew_burke_ernzerhof_functional()
-            .add_wang_teter_functional(den0)
+            .add_wang_teter_functional()
         )
-        system.distribute_electrons_uniformly(system.total_ion_charge())
         system.minimize_energy()
 
         # wang-govind-carter
         system = profess.System(shape)
         system.set_box(box_vectors, 'a')
         system.add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
+        system.distribute_electrons_uniformly(system.total_ion_charge())
         den0 = system.total_ion_charge() / system.volume()
         (
         system
@@ -77,7 +77,6 @@ class TestSystem(unittest.TestCase):
             .add_perdew_burke_ernzerhof_functional()
             .add_wang_govind_carter_functional(den0)
         )
-        system.distribute_electrons_uniformly(system.total_ion_charge())
         system.minimize_energy()
 
     def test_bcc_lithium(self):
@@ -90,15 +89,14 @@ class TestSystem(unittest.TestCase):
             'potentials/li.gga.recpot',
             box_vecs[0,0]*np.array([[0.0,0.0,0.0],[0.5,0.5,0.5]]),
             'a')
-        den0 = system.total_ion_charge() / system.volume()
+        system.distribute_electrons_uniformly(system.total_ion_charge())
         (
         system
             .add_hartree_functional()
             .add_ion_electron_functional()
             .add_perdew_burke_ernzerhof_functional()
-            .add_smargiassi_madden_functional(den0)
+            .add_smargiassi_madden_functional()
         )
-        system.distribute_electrons_uniformly(system.total_ion_charge())
         system.minimize_energy()
 
 if __name__ == '__main__':

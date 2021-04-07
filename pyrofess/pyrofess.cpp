@@ -233,7 +233,12 @@ PYBIND11_MODULE(profess, m) {
                  (&System::add_libxc_functional))
 
         .def("add_kinetic_class_a_functional",
-              &System::add_kinetic_class_a_functional)
+             &System::add_kinetic_class_a_functional,
+             py::arg("a"),
+             py::arg("b"),
+             py::arg("f"),
+             py::arg("fp"),
+             py::arg("den0")=-1)
 
         .def("add_perdew_burke_ernzerhof_functional",
               &System::add_perdew_burke_ernzerhof_functional)
@@ -241,16 +246,20 @@ PYBIND11_MODULE(profess, m) {
         .def("add_perdew_zunger_functional",
               &System::add_perdew_zunger_functional)
 
-        .def("add_perrot_functional", &System::add_perrot_functional)
+        .def("add_perrot_functional",
+            &System::add_perrot_functional,
+            py::arg("den0")=-1)
 
         .def("add_smargiassi_madden_functional",
-             &System::add_smargiassi_madden_functional)
+             &System::add_smargiassi_madden_functional,
+             py::arg("den0")=-1)
 
         .def("add_thomas_fermi_functional",
              &System::add_thomas_fermi_functional)
 
         .def("add_wang_teter_functional",
-             &System::add_wang_teter_functional)
+             &System::add_wang_teter_functional,
+             py::arg("den0")=-1)
 
         .def("add_wang_govind_carter_functional",
              &System::add_wang_govind_carter_functional,
@@ -260,7 +269,8 @@ PYBIND11_MODULE(profess, m) {
              py::arg("gamma")=2.7)
 
         .def("add_wang_govind_carter_1999_i_functional",
-             &System::add_wang_govind_carter_1999_i_functional)
+             &System::add_wang_govind_carter_1999_i_functional,
+             py::arg("den0")=-1)
 
         .def("add_weizsaecker_functional",
              &System::add_weizsaecker_functional)

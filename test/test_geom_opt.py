@@ -26,13 +26,12 @@ class TestGeomOpt(unittest.TestCase):
             'potentials/li.gga.recpot',
             box_vectors[0,0]*np.array([[0,0,0],[0.5,0.5,0.5]]),
             'a')
-        den0 = system.total_ion_charge() / system.volume()
         (
         system
                .add_hartree_functional()
                .add_ion_electron_functional()
                .add_perdew_burke_ernzerhof_functional()
-               .add_wang_teter_functional(den0)
+               .add_wang_teter_functional()
         )
         system.distribute_electrons_uniformly(system.total_ion_charge())
         system.minimize_energy()

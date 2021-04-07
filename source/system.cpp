@@ -156,6 +156,7 @@ System& System::add_kinetic_class_a_functional(
         std::function<double(double)> fp,
         double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<KineticClassA>(
             box, grid_shape, a, b, f, fp, den0));
     return *this;
@@ -175,6 +176,7 @@ System& System::add_perdew_zunger_functional()
 
 System& System::add_perrot_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<Perrot>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -182,6 +184,7 @@ System& System::add_perrot_functional(double den0)
 
 System& System::add_smargiassi_madden_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<SmargiassiMadden>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -204,6 +207,7 @@ System& System::add_wang_govind_carter_functional(
 
 System& System::add_wang_govind_carter_1999_i_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<WangGovindCarter1999I>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -211,6 +215,7 @@ System& System::add_wang_govind_carter_1999_i_functional(double den0)
 
 System& System::add_wang_teter_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<WangTeter>(
             box.vectors(), grid_shape, den0));
     return *this;
