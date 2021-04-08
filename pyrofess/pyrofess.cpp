@@ -258,22 +258,28 @@ PYBIND11_MODULE(profess, m) {
             "add_ions",
             &System::add_ions,
             R"(
-                add_ions
+                add_ions(filename, coords, unit='frac')
 
-                Add ions to the system.
+                Add ions to the system. TODO: fix frac.
+
+                For the ion potential defined in `filename`, add ions to the
+                locations indicated by `coords`.
 
                 Parameters
                 ----------
                 filename : str
-                    pseudopotential file
-                coords : 2d array
-                    Cartesian coordinates of ions
-                unit : str
-                    length unit
+                    Potential file.
+                coords : array_like
+                    Ion coordinates in shape Nx3, where N is the number of
+                    ions.
+                unit : str, optional
+                    Length unit for `coords`. Can be 'frac' (the default),
+                    indicating fractional coordinates, or a valid length unit,
+                    indicating Cartesian coordinates.
 
                 Returns
                 -------
-                profess system
+                system : profess.System
             )",
             py::arg("filename"),
             py::arg("coords"),

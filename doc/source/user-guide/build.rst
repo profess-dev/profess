@@ -47,7 +47,7 @@ Add electrons
     :toctree: generated
     :nosignatures:
 
-    distribute_electrons_uniformly
+    add_electrons
 
 .. _add-energy-functionals:
 

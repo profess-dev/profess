@@ -1,6 +1,6 @@
 build
-documentation/build
-documentation/source/user-guide/generated
+doc/build
+doc/source/user-guide/generated
 external/lbfgs/lbfgs_um
 pyrofess/__pycache__
 test/__pycache__
