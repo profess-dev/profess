@@ -1,12 +1,10 @@
-***********************************
-Compute or report system properties
-***********************************
+************************
+Report system properties
+************************
 
 .. currentmodule:: profess.System
 
-System methods that compute or report basic properties, without modifying
-the system, include:
-
+The following methods report basic properties without modifying the system.
 
 .. autosummary::
     :toctree: generated

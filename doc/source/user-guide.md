@@ -13,15 +13,14 @@ kernelspec:
 :hidden:
 user-guide/build
 user-guide/modify
-user-guide/compute
+user-guide/report
 ```
 
 Most users will only requre the ``profess.System`` class. The relevant commands fall into three categories:
 
 * {doc}`building a new system <user-guide/build>`;
 * {doc}`modifying an existing system <user-guide/modify>`;
-* {doc}`computing or reporting system properties <user-guide/compute>`.
-
+* {doc}`reporting system properties <user-guide/report>`.
 
 ## Basic example
 

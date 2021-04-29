@@ -35,8 +35,8 @@ templates_path = ['_templates']
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = 'pydata_sphinx_theme'
-html_css_files = ['custom.css']
 html_static_path = ['_static']
+html_css_files = ['custom.css']
 
 html_title = ''
 html_logo = 'profess.svg'

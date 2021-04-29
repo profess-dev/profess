@@ -40,11 +40,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                    energy unit
+                    Energy unit.
 
                 Returns
                 -------
-                total energy
+                energy : float
             )",
             py::arg("unit")=std::string{"h"})
 
@@ -59,11 +59,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                    enthalpy unit
+                    Enthalpy unit.
                 
                 Returns
                 -------
-                total enthalpy
+                enthalpy : float
             )",
             py::arg("unit")=std::string{"h"})
 
@@ -73,16 +73,16 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 forces(unit=?)
                 
-                Compute forces on ions.
+                Compute forces.
                 
                 Parameters
                 ----------
                 unit : str
-                    force unit
+                    Force unit.
                 
                 Returns
                 -------
-                forces : list of lists
+                forces : array_like
             )")
 
         .def(
@@ -96,11 +96,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                    stress unit
+                    Stress unit.
 
                 Returns
                 -------
-                stress : list of lists
+                stress : array_like
             )",
             py::arg("unit")=std::string{"h/b3"})
 
@@ -115,12 +115,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                    stress unit
+                    Stress unit.
                 
                 Returns
                 -------
                 pressure : float
-                    total pressure
             )",
             py::arg("unit")=std::string{"h/b3"})
 
@@ -135,12 +134,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                    volume unit
+                    Volume unit.
                 
                 Returns
                 -------
                 volume : float
-                    box volume
             )",
             py::arg("unit")=std::string{"b3"})
 
@@ -155,12 +153,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                    length unit
+                    Length unit.
                 
                 Returns
                 -------
-                box_vectors : list of lists
-                    box vectors
+                box_vectors : array_like.
             )",
             py::arg("unit")=std::string{"b"})
 
@@ -174,7 +171,7 @@ PYBIND11_MODULE(profess, m) {
                 
                 Returns
                 -------
-                grid_shape (numpy array)
+                grid_shape : array_like
              )")
 
         .def(
@@ -183,17 +180,16 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 energy_cutoff(unit='h')
                 
-                Plane wave cutoff for the current grid.
+                Plane wave cutoff for the current box vectors and grid.
                 
                 Parameters
                 ----------
                 unit : str
-                    energy unit
+                    Energy unit.
                 
                 Returns
                 -------
                 energy_cutoff : float
-                    cutoff energy
             )",
             py::arg("unit")=std::string{"h"})
 
@@ -203,12 +199,11 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 total_ion_charge
 
-                Total ion charge.
+                Total charge of all ions.
 
                 Returns
                 -------
                 total_ion_charge : float
-                    sum of ion charges
             )")
 
         .def(
@@ -222,12 +217,11 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 unit : str
-                     length unit
+                     Length unit.
                 
                 Returns
                 -------
-                ions_xyz_coords : list of lists
-                     ion coordinates
+                ions_xyz_coords : array_like
             )",
             py::arg("unit")=std::string{"b"})
 
@@ -237,17 +231,16 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 electron_density
                 
-                Electron density on a grid.
+                Electron density on the grid.
                 
                 Parameters
                 ----------
                 unit : str
-                    density unit
+                    Density unit.
                 
                 Returns
                 -------
-                electron_density : deft array
-                    electron density
+                electron_density : deft_array
             )")
 
         // -----------------
@@ -260,7 +253,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 add_ions(filename, coords, unit='frac')
 
-                Add ions to the system. TODO: fix frac.
+                Add ions to the system.
 
                 For the ion potential defined in `filename`, add ions to the
                 locations indicated by `coords`.
@@ -289,18 +282,18 @@ PYBIND11_MODULE(profess, m) {
             "add_coulomb_ions",
             &System::add_coulomb_ions,
             R"(
-                add_coulomb_ions
+                add_coulomb_ions(z, coords, unit)
 
                 Add Coulomb ions to the system.
 
                 Parameters
                 ----------
                 z : float
-                    ion charge
-                coords : 2d array
-                    Cartesian coordinates of ions
+                    Ion charge.
+                coords : array_like
+                    Cartesian coordinates of ions.
                 unit : str
-                    length unit
+                    Length unit for coords.
 
                 Returns
                 -------
@@ -310,18 +303,18 @@ PYBIND11_MODULE(profess, m) {
             py::arg("coords"),
             py::arg("units")=std::string{"b"})
 
-        .def(
-            "add_harmonic_ions",
-            &System::add_harmonic_ions,
-            R"(
-                add_harmonic_ions
-
-                Add harmonic ions to the system.
-
-                Returns
-                -------
-                system : profess.System
-            )")
+//        .def(
+//            "add_harmonic_ions",
+//            &System::add_harmonic_ions,
+//            R"(
+//                add_harmonic_ions
+//
+//                Add harmonic ions to the system.
+//
+//                Returns
+//                -------
+//                system : profess.System
+//            )")
 
         .def(
             "add_hartree_functional",
@@ -470,6 +463,8 @@ PYBIND11_MODULE(profess, m) {
             &System::add_perrot_functional,
             R"(
                 add_perrot_functional
+
+                Add Perrot kinetic energy functional.
 
                 Parameters
                 ----------

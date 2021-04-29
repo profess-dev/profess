@@ -4,18 +4,6 @@ Build a system
 
 .. currentmodule:: profess.System
 
-Systems are built in the following sequence:
-
-* :ref:`create the system <create-the-system>`;
-* :ref:`add ions <add-ions>`;
-* :ref:`add electrons <add-electrons>`;
-* :ref:`add energy functionals <add-energy-functionals>`.
-
-.. _create-the-system:
-
-Create the system
-=================
-
 Systems are created as follows. ::
 
     shape = profess.System.get_shape(box_vectors, energy_cutoff, ('a','ev'))
@@ -36,7 +24,6 @@ file. But a method for adding bare Coulomb ions is also available.
 
     add_ions
     add_coulomb_ions
-    add_harmonic_ions
 
 .. _add-electrons:
 

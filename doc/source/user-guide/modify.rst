@@ -4,13 +4,6 @@ Modify a system
 
 .. currentmodule:: profess.System
 
-Systems are built in the following sequence:
-
-* :ref:`create-the-system`
-* :ref:`add-ions`
-* :ref:`add-electrons`
-* :ref:`add-energy-functionals`
-
 .. autosummary::
     :toctree: generated
     :nosignatures:

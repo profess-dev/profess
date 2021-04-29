@@ -1,6 +1,6 @@
-**********************
-Installing ``profess``
-**********************
+*******
+Install
+*******
 
 The simplest approach is to first install the various dependencies into a conda environment. ::
 

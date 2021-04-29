@@ -1,5 +1,5 @@
-``profess``
-===========
+Welcome
+=======
 
 .. toctree::
     :maxdepth: 1
@@ -9,7 +9,6 @@
     Install <install>
     User Guide <user-guide.md>
     Examples <examples>
-    Theory <theory>
     Contact <contact>
 
 .. warning::
@@ -17,8 +16,8 @@
     This site supports the development release of a new (fourth) version of
     ``profess``. Not all features are complete.
 
-    For now, some users would be better served by ``profess 3``, available
-    `here <https://github.com/EACcodes/PROFESS>`_.
+    For now, some users would be better served by ``profess 3``,
+    available `here <https://github.com/EACcodes/PROFESS>`_.
 
 
 ``profess`` is a high-performance engine for orbital-free density
