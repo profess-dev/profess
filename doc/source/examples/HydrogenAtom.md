@@ -42,10 +42,8 @@ box_lengths = np.linspace(2,20,10)
 
 energies = []
 for box_length in box_lengths:
-    grid_shape = profess.System.get_shape(box_length*np.identity(3), planewave_cutoff_energy, ['b','h'])
     system = (
-        profess.System(grid_shape)
-        .set_box(box_length*np.identity(3))
+        profess.System.create_system(box_length*np.identity(3), planewave_cutoff_energy, ['b','h'])
         .add_coulomb_ions(1.0, [[0,0,0]], cutoff=0.5*box_length)
         .add_electrons()
         .add_weizsaecker_functional()

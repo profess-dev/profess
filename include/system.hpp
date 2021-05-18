@@ -22,6 +22,11 @@ public:
             double energy_cutoff,
             std::array<std::string,2> units={"b","h"});
 
+    static System create_system(
+            std::array<std::array<double,3>,3> box_vectors,
+            double planewave_cutoff,
+            std::array<std::string,2> units={"b","h"});
+
     // rule of five
     // copy construction/assignment disabled b/c class has unique ptrs
     ~System() = default;

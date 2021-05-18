@@ -620,7 +620,13 @@ PYBIND11_MODULE(profess, m) {
         .def_static(
             "get_shape",
             &System::get_shape,
-            "Docstring for get_shape");
+            "Docstring for get_shape")
+
+        .def_static(
+            "create_system",
+            &System::create_system,
+            "Docstring for create_system");
+
 }
 
 }
