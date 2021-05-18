@@ -47,7 +47,8 @@ public:
     System& add_coulomb_ions(
         double z,
         std::vector<std::array<double,3>> coords,
-        std::string unit={"b"});
+        std::string unit={"b"},
+        double cutoff=-1.0);
     System& add_harmonic_ions();
 
     std::vector<std::array<double,3>> ions_xyz_coords(std::string unit);
@@ -92,7 +93,7 @@ public:
     double total_ion_charge();
 
     // basic manipulations
-    System& add_electrons(double electrons);
+    System& add_electrons(double electrons=-1.0);
     System& move_ions(
             std::vector<std::array<double,3>> xyz_coords,
             std::string length_unit={"b"});

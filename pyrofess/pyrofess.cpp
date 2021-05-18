@@ -301,7 +301,8 @@ PYBIND11_MODULE(profess, m) {
             )",
             py::arg("z"),
             py::arg("coords"),
-            py::arg("units")=std::string{"b"})
+            py::arg("units")=std::string{"b"},
+            py::arg("cutoff")=-1.0)
 
 //        .def(
 //            "add_harmonic_ions",
@@ -574,7 +575,8 @@ PYBIND11_MODULE(profess, m) {
 
         .def(
             "add_electrons",
-            &System::add_electrons)
+            &System::add_electrons,
+            py::arg("electrons")=-1.0)
 
         .def(
             "set_box",

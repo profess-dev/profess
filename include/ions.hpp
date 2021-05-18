@@ -32,7 +32,7 @@ public:
     std::vector<std::function<double(double)>>
             ft_potential_derivatives();
 
-    Ions& add_ion_type_coulomb(double z);
+    Ions& add_ion_type_coulomb(double z, double cutoff=-1.0);
     Ions& add_ion_type_recpot(std::string filename);
     Ions& add_ion_type_harmonic_compactified(double w, double r1, double r2);
     Ions& add_ion_type_generic(

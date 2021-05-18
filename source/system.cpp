@@ -34,21 +34,18 @@
 
 #include <iostream>
 
-namespace profess
-{
+namespace profess {
 
 System::System(std::array<size_t,3> grid_shape)
     : box({{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,1.0}}}),
       grid_shape(grid_shape),
-      electron_density(Double3D(grid_shape))
-{
+      electron_density(Double3D(grid_shape)) {
 }
 
 std::array<size_t,3> System::get_shape(
         std::array<std::array<double,3>,3> box_vectors,
         double energy_cutoff,
-        std::array<std::string,2> units)
-{
+        std::array<std::string,2> units) {
     box_vectors = units::convert_length(box_vectors, units[0], {"b"});
     energy_cutoff = units::convert_energy(energy_cutoff, units[1], {"h"}); 
     double wavevector_cutoff = std::sqrt(2.0*energy_cutoff);
@@ -93,9 +90,10 @@ System& System::add_ions(
 System& System::add_coulomb_ions(
     double z,
     std::vector<std::array<double,3>> coords,
-    std::string unit)
+    std::string unit,
+    double cutoff)
 {
-    ions.add_ion_type_coulomb(z);
+    ions.add_ion_type_coulomb(z, cutoff);
     coords = units::convert_length(coords, unit, {"b"});
     auto ion_coords = ions.xyz_coords();
     ion_coords.insert(ion_coords.end(), coords.begin(), coords.end());
@@ -167,14 +165,12 @@ System& System::add_kinetic_class_a_functional(
     return *this;
 }
 
-System& System::add_perdew_burke_ernzerhof_functional()
-{
+System& System::add_perdew_burke_ernzerhof_functional() {
     functionals.emplace_back(std::make_unique<PerdewBurkeErnzerhof>(box));
     return *this;
 }
 
-System& System::add_perdew_zunger_functional()
-{
+System& System::add_perdew_zunger_functional() {
     functionals.emplace_back(std::make_unique<PerdewZunger>(box));
     return *this;
 }
@@ -265,13 +261,13 @@ std::tuple<double, Double3D> System::energy_potential(bool compute_ion_ion)
         //std::cout << f->name() << "->  " << ene << std::endl;
     }
 
-    if (compute_ion_ion) {
-        ene = IonIon().energy(
-                box.vectors(),
-                ions);
-        energy += ene;
-        //std::cout << "ion-ion" << "->  " << std::setprecision(12) << ene << std::endl;
-    }
+//    if (compute_ion_ion) {
+//        ene = IonIon().energy(
+//                box.vectors(),
+//                ions);
+//        energy += ene;
+//        //std::cout << "ion-ion" << "->  " << std::setprecision(12) << ene << std::endl;
+//    }
 
     return std::make_tuple(energy, potential);
 }
@@ -354,7 +350,11 @@ double System::total_ion_charge()
 
 System& System::add_electrons(double electrons)
 {
-    electron_density.fill(electrons / box.volume());
+    if (electrons < 0.0) {
+        electron_density.fill(total_ion_charge() / box.volume());
+    } else {
+        electron_density.fill(electrons / box.volume());
+    }
     return *this;
 }
 
