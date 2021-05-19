@@ -29,6 +29,12 @@ public:
         double planewave_cutoff,
         std::array<std::string,2> units={"b","h"});
 
+    static
+    System create(
+        std::array<std::array<double,3>,3> box_vectors,
+        std::array<size_t,3> grid_shape,
+        std::string unit={"b"});
+
     // rule of five
     // copy construction/assignment disabled b/c class has unique ptrs
     ~System() = default;
@@ -74,19 +80,21 @@ public:
         double den0=-1);
     System& add_perdew_burke_ernzerhof_functional();
     System& add_perdew_zunger_functional();
-    System& add_perrot_functional(double den0=-1);
-    System& add_smargiassi_madden_functional(double den0=-1);
+    System& add_perrot_functional(double den0=-1.0);
+    System& add_smargiassi_madden_functional(double den0=-1.0);
     System& add_thomas_fermi_functional();
     System& add_wang_govind_carter_functional(
-        double den0,
+        double den0=-1.0,
         double alpha=(5.0+std::sqrt(5.0))/6.0,
         double beta=(5.0-std::sqrt(5.0))/6.0,
         double gamma=2.7);
-    System& add_wang_govind_carter_1999_i_functional(double den0=-1);
-    System& add_wang_teter_functional(double den0=-1);
+    System& add_wang_govind_carter_1999_i_functional(double den0=-1.0);
+    System& add_wang_teter_functional(double den0=-1.0);
     System& add_weizsaecker_functional();
 
     System& remove_functional(std::string name);
+
+    System& add_ion_ion_interaction();
 
     // basic information about the system
     double energy(std::string unit={"h"});
@@ -119,6 +127,10 @@ public:
         double energy_tol=1e-5,
         size_t window_size=3,
         size_t max_iter=100);
+
+private:
+
+    bool _ion_ion_interaction = false;
 };
 
 }

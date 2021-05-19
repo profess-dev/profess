@@ -539,7 +539,7 @@ PYBIND11_MODULE(profess, m) {
                 Returns
                 -------
             )",
-            py::arg("den0"),
+            py::arg("den0")=-1.0,
             py::arg("alpha")=(5.0+std::sqrt(5.0))/6.0,
             py::arg("beta")=(5.0-std::sqrt(5.0))/6.0,
             py::arg("gamma")=2.7)
@@ -572,6 +572,10 @@ PYBIND11_MODULE(profess, m) {
         .def(
             "remove_functional",
             &System::remove_functional)
+
+        .def(
+            "add_ion_ion_interaction",
+            &System::add_ion_ion_interaction)
 
         .def(
             "add_electrons",
@@ -624,8 +628,27 @@ PYBIND11_MODULE(profess, m) {
 
         .def_static(
             "create",
-            &System::create,
-            "Docstring for System::create");
+            py::overload_cast<
+                std::array<std::array<double,3>,3>,
+                double,
+                std::array<std::string,2>
+                >(&System::create),
+            "Docstring for System::create",
+            py::arg("box_vectors"),
+            py::arg("planewave_cutoff"),
+            py::arg("units")=std::array<std::string,2>({"b","h"}))
+
+        .def_static(
+            "create",
+            py::overload_cast<
+                std::array<std::array<double,3>,3>,
+                std::array<size_t,3>,
+                std::string
+                >(&System::create),
+            "Docstring for System::create",
+            py::arg("box_vectors"),
+            py::arg("planewave_cutoff"),
+            py::arg("units")=std::array<std::string,2>({"b","h"}));
 
 }
 

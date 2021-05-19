@@ -69,6 +69,16 @@ System System::create(
     return system;
 }
 
+System System::create(
+    std::array<std::array<double,3>,3> box_vectors,
+    std::array<size_t,3> grid_shape,
+    std::string unit)
+{
+    System system(grid_shape);
+    system.set_box(box_vectors, unit);
+    return system;
+}
+
 std::array<std::array<double,3>,3> System::box_vectors(std::string unit)
 {
     return units::convert_length(box.vectors(), {"b"}, unit);
@@ -210,6 +220,7 @@ System& System::add_thomas_fermi_functional()
 System& System::add_wang_govind_carter_functional(
     double den0, double alpha, double beta, double gamma)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(
         std::make_unique<WangGovindCarter>(
             box.vectors(), grid_shape, den0, alpha, beta, gamma));
@@ -247,6 +258,12 @@ System& System::remove_functional(std::string name)
     return *this;
 }
 
+System& System::add_ion_ion_interaction()
+{
+    _ion_ion_interaction = true;
+    return *this;
+}
+
 double System::energy(std::string unit)
 {
     double energy;
@@ -271,13 +288,11 @@ std::tuple<double, Double3D> System::energy_potential(bool compute_ion_ion)
         //std::cout << f->name() << "->  " << ene << std::endl;
     }
 
-//    if (compute_ion_ion) {
-//        ene = IonIon().energy(
-//                box.vectors(),
-//                ions);
-//        energy += ene;
-//        //std::cout << "ion-ion" << "->  " << std::setprecision(12) << ene << std::endl;
-//    }
+    if (_ion_ion_interaction) {
+        if (compute_ion_ion) {
+            energy += IonIon().energy(box.vectors(), ions);
+        }
+    }
 
     return std::make_tuple(energy, potential);
 }
