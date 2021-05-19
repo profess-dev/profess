@@ -19,26 +19,25 @@ class TestGeomOpt(unittest.TestCase):
     def test_bcc_lithium(self):
 
         # create system and compute ground state energy
-        system = profess.System([15,15,15])
-        box_vectors = 3.48*np.eye(3)
-        system.set_box(box_vectors, 'a')
-        system.add_ions(
-            'potentials/li.gga.recpot',
-            box_vectors[0,0]*np.array([[0,0,0],[0.5,0.5,0.5]]),
-            'a')
-        (
-        system
-               .add_hartree_functional()
-               .add_ion_electron_functional()
-               .add_perdew_burke_ernzerhof_functional()
-               .add_wang_teter_functional()
+        box_len = 3.48
+        system = (
+            profess.System.create(box_len*np.eye(3), [15,15,15], 'a')
+            .add_ions(
+                'potentials/li.gga.recpot',
+                box_len*np.array([[0,0,0],[0.5,0.5,0.5]]),
+                'a')
+            .add_electrons()
+            .add_wang_teter_functional()
+            .add_hartree_functional()
+            .add_perdew_burke_ernzerhof_functional()
+            .add_ion_electron_functional()
+            .add_ion_ion_interaction()
         )
-        system.add_electrons(system.total_ion_charge())
         system.minimize_energy()
         energy = system.energy()
         # peturb ions, then restore by minimizing forces, keeping box fixed
         system.move_ions(
-            box_vectors[0,0]*np.array([[0.0,0.1,0.0],[0.6,0.4,0.6]]),
+            box_len*np.array([[0.0,0.1,0.0],[0.6,0.4,0.6]]),
             'a')
         ase_tools.minimize_forces(system, 'BFGSLineSearch', 1e-4)
         self.assertAlmostEqual(energy, system.energy(), places=5)
