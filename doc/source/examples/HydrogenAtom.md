@@ -43,7 +43,7 @@ box_lengths = np.linspace(2,20,10)
 energies = []
 for box_length in box_lengths:
     system = (
-        profess.System.create_system(box_length*np.identity(3), planewave_cutoff_energy, ['b','h'])
+        profess.System.create(box_length*np.identity(3), planewave_cutoff_energy, ['b','h'])
         .add_coulomb_ions(1.0, [[0,0,0]], cutoff=0.5*box_length)
         .add_electrons()
         .add_weizsaecker_functional()

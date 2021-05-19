@@ -59,7 +59,7 @@ std::array<size_t,3> System::get_shape(
     return {2*n0+1, 2*n1+1, 2*n2+1};
 }
 
-System System::create_system(
+System System::create(
     std::array<std::array<double,3>,3> box_vectors,
     double planewave_cutoff,
     std::array<std::string,2> units)

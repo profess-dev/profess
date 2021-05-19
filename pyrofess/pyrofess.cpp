@@ -623,9 +623,9 @@ PYBIND11_MODULE(profess, m) {
             "Docstring for get_shape")
 
         .def_static(
-            "create_system",
-            &System::create_system,
-            "Docstring for create_system");
+            "create",
+            &System::create,
+            "Docstring for System::create");
 
 }
 
