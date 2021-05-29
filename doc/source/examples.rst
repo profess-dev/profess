@@ -5,7 +5,8 @@ Examples
 .. toctree::
     :caption: Examples
 
-    examples/HydrogenAtom.md
+    examples/H-and-H2.md
+..
     examples/HydrogenDimer.ipynb
     examples/Aluminium.ipynb
     examples/Magnesium.ipynb

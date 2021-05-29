@@ -43,9 +43,7 @@ box_vectors = 4.05 * np.identity(3)
 energy_cutoff = 1200
 
 # create the system
-shape = profess.System.get_shape(box_vectors, energy_cutoff, ('a','ev'))
-system = profess.System(shape)
-system.set_box(box_vectors, 'a')
+system = profess.System.create(box_vectors, energy_cutoff, ['a','ev'])
 
 # add ions and electrons
 system.add_ions(
@@ -57,13 +55,14 @@ system.add_ions(
     'a')
 system.add_electrons(system.total_ion_charge())
 
-# add the energy functional
+# add energy terms
 (
 system
     .add_wang_teter_functional()
     .add_hartree_functional()
     .add_perdew_burke_ernzerhof_functional()
     .add_ion_electron_functional()
+    .add_ion_ion_interaction()
 )
 ```
 

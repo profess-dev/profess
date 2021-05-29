@@ -43,9 +43,7 @@ html_logo = 'profess.svg'
 
 jupyter_execute_notebooks = 'auto'
 execution_timeout = -1
-execution_excludepatterns = ['HydrogenAtom.ipynb',
-                             'HydrogenDimer.ipynb', 
-                             'Aluminium.ipynb',
+execution_excludepatterns = ['Aluminium.ipynb',
                              'Magnesium.ipynb']
 
 # -- Options for math --------------------------------------------------------

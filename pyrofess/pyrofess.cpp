@@ -647,8 +647,8 @@ PYBIND11_MODULE(profess, m) {
                 >(&System::create),
             "Docstring for System::create",
             py::arg("box_vectors"),
-            py::arg("planewave_cutoff"),
-            py::arg("units")=std::array<std::string,2>({"b","h"}));
+            py::arg("grid_shape"),
+            py::arg("unit")=std::string{"b"});
 
 }
 
