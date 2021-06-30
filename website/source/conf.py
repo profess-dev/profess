@@ -24,7 +24,6 @@ release = '4-dev'
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosectionlabel',
               'sphinx.ext.autosummary',
-#              'sphinx.ext.napoleon',
               'numpydoc',
               'myst_nb']
 
@@ -35,16 +34,20 @@ templates_path = ['_templates']
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = 'pydata_sphinx_theme'
+html_theme_options = {
+    "collapse_navigation": True,
+    "navigation_depth": 1,
+    "show_prev_next": False,
+}
 html_static_path = ['_static']
 html_css_files = ['custom.css']
 
 html_title = ''
 html_logo = 'profess.svg'
 
-jupyter_execute_notebooks = 'auto'
+jupyter_execute_notebooks = 'cache'
 execution_timeout = -1
-execution_excludepatterns = ['Aluminium.ipynb',
-                             'Magnesium.ipynb']
+execution_excludepatterns = []
 
 # -- Options for math --------------------------------------------------------
 

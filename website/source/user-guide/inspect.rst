@@ -1,6 +1,6 @@
-************************
-Report system properties
-************************
+****************
+Inspect a system
+****************
 
 .. currentmodule:: profess.System
 
@@ -17,7 +17,7 @@ The following methods report basic properties without modifying the system.
     pressure
     volume
     box_vectors
-    grid_shape
-    energy_cutoff
     ions_xyz_coords
     electron_density
+    grid_shape
+    energy_cutoff

@@ -35,7 +35,7 @@ class TestSystem(unittest.TestCase):
                                         [0.5, 0.0, 0.5]])
         # w + tf
         system = (
-            profess.System.create(box_vectors, shape, 'a')
+            profess.System.create_from_grid_shape(box_vectors, shape, 'a')
             .add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
             .add_electrons()
             .add_weizsaecker_functional()
@@ -50,7 +50,7 @@ class TestSystem(unittest.TestCase):
 
         # wang-teter
         system = (
-            profess.System.create(box_vectors, shape, 'a')
+            profess.System.create_from_grid_shape(box_vectors, shape, 'a')
             .add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
             .add_electrons()
             .add_wang_teter_functional()
@@ -63,7 +63,7 @@ class TestSystem(unittest.TestCase):
 
         # wang-govind-carter
         system = (
-            profess.System.create(box_vectors, shape, 'a')
+            profess.System.create_from_grid_shape(box_vectors, shape, 'a')
             .add_ions('potentials/al.gga.recpot', np.zeros([1,3]), 'a')
             .add_electrons()
             .add_wang_govind_carter_functional()
@@ -79,7 +79,7 @@ class TestSystem(unittest.TestCase):
         box_vecs = 3.48 * np.eye(3)
         shape = (18,18,18)
         system = (
-            profess.System.create(box_vecs, shape, 'a')
+            profess.System.create_from_grid_shape(box_vecs, shape, 'a')
             .add_ions(
                 'potentials/li.gga.recpot',
                 box_vecs[0,0]*np.array([[0.0,0.0,0.0],[0.5,0.5,0.5]]),

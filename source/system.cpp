@@ -39,13 +39,14 @@ namespace profess {
 System::System(std::array<size_t,3> grid_shape)
     : box({{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,1.0}}}),
       grid_shape(grid_shape),
-      electron_density(Double3D(grid_shape)) {
-}
+      electron_density(Double3D(grid_shape))
+{}
 
-std::array<size_t,3> System::get_shape(
-        std::array<std::array<double,3>,3> box_vectors,
-        double energy_cutoff,
-        std::array<std::string,2> units) {
+System System::create(
+    std::array<std::array<double,3>,3> box_vectors,
+    double energy_cutoff,
+    std::array<std::string,2> units)
+{
     box_vectors = units::convert_length(box_vectors, units[0], {"b"});
     energy_cutoff = units::convert_energy(energy_cutoff, units[1], {"h"}); 
     double wavevector_cutoff = std::sqrt(2.0*energy_cutoff);
@@ -56,20 +57,12 @@ std::array<size_t,3> System::get_shape(
     size_t n0 = std::ceil(wavevector_cutoff*l0/(2.0*M_PI));
     size_t n1 = std::ceil(wavevector_cutoff*l1/(2.0*M_PI));
     size_t n2 = std::ceil(wavevector_cutoff*l2/(2.0*M_PI));
-    return {2*n0+1, 2*n1+1, 2*n2+1};
-}
-
-System System::create(
-    std::array<std::array<double,3>,3> box_vectors,
-    double planewave_cutoff,
-    std::array<std::string,2> units)
-{
-    System system(System::get_shape(box_vectors, planewave_cutoff, units));
-    system.set_box(box_vectors, units[0]);
+    System system({2*n0+1, 2*n1+1, 2*n2+1});
+    system.set_box(box_vectors);
     return system;
 }
 
-System System::create(
+System System::create_from_grid_shape(
     std::array<std::array<double,3>,3> box_vectors,
     std::array<size_t,3> grid_shape,
     std::string unit)
@@ -172,7 +165,7 @@ System& System::add_libxc_functional(std::vector<int> ids)
     return *this;
 }
 
-System& System::add_kinetic_class_a_functional(
+System& System::add_generic_nonlocal_a_functional(
         double a,
         double b,
         std::function<double(double)> f,

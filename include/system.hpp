@@ -13,28 +13,22 @@ namespace profess
 
 class System
 {
+
 public:
-
-    System(std::array<size_t,3> grid_shape);
-
+    // public constructors (named constructor idiom)
     static
-    std::array<size_t,3> get_shape(
+    System create(
         std::array<std::array<double,3>,3> box_vectors,
         double energy_cutoff,
         std::array<std::string,2> units={"b","h"});
-
     static
-    System create(
-        std::array<std::array<double,3>,3> box_vectors,
-        double planewave_cutoff,
-        std::array<std::string,2> units={"b","h"});
-
-    static
-    System create(
+    System create_from_grid_shape(
         std::array<std::array<double,3>,3> box_vectors,
         std::array<size_t,3> grid_shape,
         std::string unit={"b"});
-
+private:
+    System(std::array<size_t,3> grid_shape);
+public:
     // rule of five
     // copy construction/assignment disabled b/c class has unique ptrs
     ~System() = default;
@@ -72,7 +66,7 @@ public:
     System& add_luo_karasiev_trickey_functional(double a=1.3,
                                                 double tiny_den=1e-12);
     System& add_libxc_functional(std::vector<int> xc_func_ids);
-    System& add_kinetic_class_a_functional(
+    System& add_generic_nonlocal_a_functional(
         double a,
         double b,
         std::function<double(double)> f,

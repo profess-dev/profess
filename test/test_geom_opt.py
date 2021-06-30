@@ -20,8 +20,9 @@ class TestGeomOpt(unittest.TestCase):
 
         # create system and compute ground state energy
         box_len = 3.48
+        box_vecs = box_len*np.identity(3)
         system = (
-            profess.System.create(box_len*np.eye(3), [15,15,15], 'a')
+            profess.System.create_from_grid_shape(box_vecs, [15,15,15], 'a')
             .add_ions(
                 'potentials/li.gga.recpot',
                 box_len*np.array([[0,0,0],[0.5,0.5,0.5]]),

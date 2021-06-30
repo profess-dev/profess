@@ -1,29 +1,20 @@
 ---
 jupytext:
+  formats: ipynb,md:myst
   text_representation:
+    extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.11.1
 kernelspec:
   display_name: Python 3
+  language: python
   name: python3
 ---
-# User Guide
 
-```{toctree}
-:hidden:
-user-guide/build
-user-guide/inspect
-user-guide/modify
-```
+# Aluminum
 
-Most users will only requre the ``profess.System`` class. The relevant commands fall into three categories:
-
-* {doc}`building a new system <user-guide/build>`;
-* {doc}`inspecting the system <user-guide/inspect>`;
-* {doc}`modifying the system <user-guide/modify>`.
-
-## Basic example
-
-For an fcc aluminum crystal, the build stage might appear as follows.
+For face-centered cubic (FCC) aluminum, the build stage might appear as follows.
 
 ```{code-cell} ipython3
 :tags: [remove-input]
@@ -46,7 +37,7 @@ system = profess.System.create(box_vectors, energy_cutoff, ['a','ev'])
 
 # add ions and electrons
 system.add_ions(
-    'examples/potentials/al.gga.recpot',
+    'potentials/al.gga.recpot',
     box_vectors[0,0] * np.array([(0.0,0.0,0.0),
                                  (0.5,0.5,0.0),
                                  (0.5,0.0,0.5),
@@ -93,9 +84,3 @@ for i, label in enumerate(('[100]', '[110]', '[111]')):
     ax[i].set_ylabel('[a.u.]')
 plt.show()
 ```
-
-## Next steps
-
-To see the full range of commands and capabilities, follow the links in the left sidebar.
-
-Alternatively, browse the {doc}`examples`.

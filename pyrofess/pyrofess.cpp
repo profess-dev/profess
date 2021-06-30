@@ -23,11 +23,55 @@ PYBIND11_MODULE(profess, m) {
 
     py::class_<System>(m, "System")
 
-        .def(
-            py::init<std::array<size_t,3>>(),
+        .def_static(
+            "create",
+            &System::create,
             R"(
-                init docstring
-            )")
+                create(box_vectors, energy_cutoff, units=['b','h'])
+                
+                Create empty system, using a plane wave energy cutoff to determine the grid dimensions.
+                
+                Parameters
+                ----------
+                box_vectors : array_like
+                    Lattice vectors, provided in the rows of a 3x3 list or array.
+                energy_cutoff : float
+                    Maximum plane wave energy, sets grid resolution.
+                units : list of str, optional
+                    Units for previous arguments.
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("box_vectors"),
+            py::arg("plane_wave_cutoff"),
+            py::arg("units")=std::array<std::string,2>({"b","h"}))
+
+        .def_static(
+            "create_from_grid_shape",
+            &System::create_from_grid_shape,
+            R"(
+                create_from_grid_shape(box_vectors, grid_shape, unit='b')
+                
+                Create empty system with a specific grid dimensions.
+                
+                Parameters
+                ----------
+                box_vectors : array_like
+                    Lattice vectors, provided in the rows of a 3x3 list or array.
+                grid_shape : sequence of 3 ints
+                    Grid dimensions along each lattice vector.
+                unit : str, optional
+                    Length unit for box_vectors.
+
+                Returns
+                -------
+                system : profess.System
+            )",
+            py::arg("box_vectors"),
+            py::arg("grid_shape"),
+            py::arg("unit")=std::string{"b"})
 
         .def(
             "energy",
@@ -35,7 +79,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 energy(unit='h')
                 
-                Compute total energy.
+                Total energy.
                 
                 Parameters
                 ----------
@@ -54,7 +98,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 enthalpy(unit='h')
 
-                Compute total enthalpy.
+                Total enthalpy.
                 
                 Parameters
                 ----------
@@ -73,7 +117,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 forces(unit=?)
                 
-                Compute forces.
+                Forces on ions.
                 
                 Parameters
                 ----------
@@ -91,7 +135,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 stress(unit='h/b3')
 
-                Compute stress tensor.
+                Stress tensor.
 
                 Parameters
                 ----------
@@ -110,7 +154,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 pressure(unit='h/b3')
                 
-                Compute total pressure.
+                Pressure.
                 
                 Parameters
                 ----------
@@ -148,7 +192,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 box_vectors(unit='b')
                 
-                Box vectors (cell vectors).
+                Box vectors (lattice vectors).
                 
                 Parameters
                 ----------
@@ -157,7 +201,8 @@ PYBIND11_MODULE(profess, m) {
                 
                 Returns
                 -------
-                box_vectors : array_like.
+                box_vectors : array_like
+                    Vectors as rows of 3x3 array.
             )",
             py::arg("unit")=std::string{"b"})
 
@@ -171,7 +216,7 @@ PYBIND11_MODULE(profess, m) {
                 
                 Returns
                 -------
-                grid_shape : array_like
+                grid_shape : sequence of 3 ints
              )")
 
         .def(
@@ -180,7 +225,7 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 energy_cutoff(unit='h')
                 
-                Plane wave cutoff for the current box vectors and grid.
+                Plane wave energy cutoff for the current box vectors and grid.
                 
                 Parameters
                 ----------
@@ -222,6 +267,8 @@ PYBIND11_MODULE(profess, m) {
                 Returns
                 -------
                 ions_xyz_coords : array_like
+                    Ion coordinates in shape Nx3, where N is the number of
+                    ions.
             )",
             py::arg("unit")=std::string{"b"})
 
@@ -255,7 +302,7 @@ PYBIND11_MODULE(profess, m) {
 
                 Add ions to the system.
 
-                For the ion potential defined in `filename`, add ions to the
+                Using the ion potential in `filename`, add ions to the
                 locations indicated by `coords`.
 
                 Parameters
@@ -291,9 +338,12 @@ PYBIND11_MODULE(profess, m) {
                 z : float
                     Ion charge.
                 coords : array_like
-                    Cartesian coordinates of ions.
-                unit : str
-                    Length unit for coords.
+                    Ion coordinates in shape Nx3, where N is the number of
+                    ions.
+                unit : str, optional
+                    Length unit for `coords`. Can be 'frac' (the default),
+                    indicating fractional coordinates, or a valid length unit,
+                    indicating Cartesian coordinates.
 
                 Returns
                 -------
@@ -366,14 +416,14 @@ PYBIND11_MODULE(profess, m) {
             "add_luo_karasiev_trickey_functional",
             &System::add_luo_karasiev_trickey_functional,
             R"(
-                add_luo_karasiev_trickey_functional
+                add_luo_karasiev_trickey_functional(a=1.3, tiny_den=1e-12)
 
                 Add Luo-Karasiev-Trickey kinetic energy functional.
 
                 Parameters
                 ----------
-                a : float
-                tiny_den : float
+                a : float, optional
+                tiny_den : float, optional
 
                 Returns
                 -------
@@ -393,7 +443,7 @@ PYBIND11_MODULE(profess, m) {
                 Parameters
                 ----------
                 xc_func_ids : list of int
-                    libxc ids
+                    Individual contributions from libxc.
 
                 Returns
                 -------
@@ -401,25 +451,26 @@ PYBIND11_MODULE(profess, m) {
             )")
 
         .def(
-            "add_kinetic_class_a_functional",
-            &System::add_kinetic_class_a_functional,
+            "add_generic_nonlocal_a_functional",
+            &System::add_generic_nonlocal_a_functional,
             R"(
-                add_kinetic_class_a_functional(a,b,f,fp,den0=-1)
+                add_kinetic_nonlocal_a_functional(a,b,f,fp,den0=-1)
 
-                Add a generic kinetic energy functional of type A.
+                Add nonlocal kinetic energy functional of generic type A.
 
                 Parameters
                 ----------
                 a : float
-                    exponent a
+                    Exponent `a`.
                 b : float
-                    exponent b
+                    Exponent `b`.
                 f : function
-                    f(x)
+                    The function f(x).
                 fp : function
-                    f'(x)
+                    The derivative f'(x).
                 den0 : float, optional
-                    uniform reference density
+                    Uniform reference density. By default (whenever`den0`<0),
+                    uses the system-averaged electron density.
 
                 Returns
                 -------
@@ -450,27 +501,27 @@ PYBIND11_MODULE(profess, m) {
             R"(
                 add_perdew_zunger_functional
 
-                Add Perdew-Zunger local density approximation exchange-correlation functional.
-
-                Parameters
-                ----------
+                Add local density approximation functional,
+                Perdew-Zunger parameterization.
 
                 Returns
                 -------
+                system : profess.System
             )")
 
         .def(
             "add_perrot_functional",
             &System::add_perrot_functional,
             R"(
-                add_perrot_functional
+                add_perrot_functional(den0=-1)
 
                 Add Perrot kinetic energy functional.
 
                 Parameters
                 ----------
-                den0 : float
-                    uniform reference density
+                den0 : float, optional
+                    Uniform reference density. By default (whenever`den0`<0),
+                    uses the system-averaged electron density.
 
                 Returns
                 -------
@@ -482,14 +533,15 @@ PYBIND11_MODULE(profess, m) {
             "add_smargiassi_madden_functional",
             &System::add_smargiassi_madden_functional,
             R"(
-                add_smargiassi_madden_functional
+                add_smargiassi_madden_functional(den0=-1)
 
                 Add Smargiassi-Madden kinetic energy functional.
 
                 Parameters
                 ----------
-                den0 : float
-                    uniform reference density
+                den0 : float, optional
+                    Uniform reference density. By default (whenever`den0`<0),
+                    uses the system-averaged electron density.
 
                 Returns
                 -------
@@ -514,17 +566,19 @@ PYBIND11_MODULE(profess, m) {
             "add_wang_teter_functional",
             &System::add_wang_teter_functional,
             R"(
-                add_wang_teter_functional
+                add_wang_teter_functional(den0=-1)
 
                 Add Wang-Teter kinetic energy functional.
 
                 Parameters
                 ----------
-                den0 : float
-                    uniform reference density
+                den0 : float, optional
+                    Uniform reference density. By default (whenever`den0`<0),
+                    uses the system-averaged electron density.
 
                 Returns
                 -------
+                system : profess.System
             )",
             py::arg("den0")=-1)
 
@@ -532,12 +586,21 @@ PYBIND11_MODULE(profess, m) {
             "add_wang_govind_carter_functional",
             &System::add_wang_govind_carter_functional,
             R"(
-                add_wang_govind_carter_functional
+                add_wang_govind_carter_functional(den0=-1, gamma=2.7)
+
+                Add Wang-Govind-Carter kinetic energy functional (density-dependent
+                kernel).
+
                 Parameters
                 ----------
+                den0 : float, optional
+                    Uniform reference density. By default (whenever`den0`<0),
+                    uses the system-averaged electron density.
+                gamma : float, optional
 
                 Returns
                 -------
+                system : profess.System
             )",
             py::arg("den0")=-1.0,
             py::arg("alpha")=(5.0+std::sqrt(5.0))/6.0,
@@ -549,11 +612,18 @@ PYBIND11_MODULE(profess, m) {
             &System::add_wang_govind_carter_1999_i_functional,
             R"(
                 add_wang_govind_carter_1999_i_functional
+
+                Add Wang-Govind-Carter functional (density-independent kernel).
+
                 Parameters
                 ----------
+                den0 : float, optional
+                    Uniform reference density. By default (whenever`den0`<0),
+                    uses the system-averaged electron density.
 
                 Returns
                 -------
+                system : profess.System
             )",
             py::arg("den0")=-1)
 
@@ -562,11 +632,12 @@ PYBIND11_MODULE(profess, m) {
             &System::add_weizsaecker_functional,
             R"(
                 add_weizsaecker_functional
-                Parameters
-                ----------
+
+                Add Weizsaecker kinetic energy functional.
 
                 Returns
                 -------
+                system : profess.System
             )")
 
         .def(
@@ -575,23 +646,61 @@ PYBIND11_MODULE(profess, m) {
 
         .def(
             "add_ion_ion_interaction",
-            &System::add_ion_ion_interaction)
+            &System::add_ion_ion_interaction,
+            R"(
+                add_ion_ion_interaction()
+
+                Add ion-ion interaction energy.
+
+                Returns
+                -------
+                system : profess.System
+            )")
 
         .def(
             "add_electrons",
             &System::add_electrons,
+             R"(
+                add_electrons(num=-1)
+
+                Add electrons to the system.
+
+                The electrons are distributed uniformly.
+                
+                Parameters
+                ----------
+                num : float, optional
+                    By default (whenever `num` < 0), add a number of
+                    electrons equal to the total ion charge in the
+                    system.
+
+                Returns
+                -------
+                system : profess.System
+              )",
             py::arg("electrons")=-1.0)
 
         .def(
             "set_box",
             &System::set_box,
              R"(
-                set_box(vectors, unit)
+                set_box(vectors, unit='h')
 
-                Set the simulation box
-                
-                    vectors (array): box vectors
-                    unit (str): length unit
+                Set the simulation box size and shape by changing the box vectors.
+
+                The ion positions are scaled to preserve their fractional
+                coordinates.
+
+                Parameters
+                ----------
+                vectors : array_like
+                    New box vectors, in rows of 3x3 list or array.
+                unit : str, optional
+                    Length unit for `vectors`.
+
+                Returns
+                -------
+                system : profess.System
               )",
              py::arg("vectors"),
              py::arg("unit")=std::string{"b"})
@@ -599,56 +708,77 @@ PYBIND11_MODULE(profess, m) {
         .def(
             "move_ions",
             &System::move_ions,
+             R"(
+                move_ions(xyz_coords, unit='b')
+
+                Move the ions to new coordinates, keeping the box fixed.
+
+                Parameters
+                ----------
+                xyz_coords : array_like
+                    Ion coordinates in shape Nx3, where N is the number of
+                    ions.
+                unit : str, optional
+                    Length unit.
+
+                Returns
+                -------
+                system : profess.System
+              )",
             py::arg("xyz_coords"),
             py::arg("unit")=std::string{"b"})
 
         .def(
             "minimize_energy",
             &System::minimize_energy,
-            "varies the electron density to minimize the system's energy",
+             R"(
+                minimize_energy(energy_tol=1e-7, window_size=3, max_iter=1000)
+
+                Minimize total energy with LBFGS algorithm.
+
+                Parameters
+                ----------
+                energy_tol : float, optional
+                    Convergence tolerance.
+                window_size : int, optional
+                    Convergence achieved after the energy changes by less than
+                    `energy_tol` over `window_size` steps.
+                max_iter : int, optional
+                    Maximum iterations permitted.
+
+                Returns
+                -------
+                system : profess.System
+              )",
             py::arg("energy_tol") = 1e-7,
             py::arg("window_size") = 3,
             py::arg("max_iter") = 1000)
 
         .def(
-            "minimize_energy_tpsd", &System::minimize_energy_tpsd,
-            "varies the electron density to minimize the system's energy",
+            "minimize_energy_tpsd",
+            &System::minimize_energy_tpsd,
+             R"(
+                minimize_energy(energy_tol=1e-7, window_size=3, max_iter=1000)
+
+                Minimize total energy with two-point steepest descent algorithm.
+
+                Parameters
+                ----------
+                energy_tol : float, optional
+                    Convergence tolerance.
+                window_size : int, optional
+                    Convergence achieved after the energy changes by less than
+                    `energy_tol` over `window_size` steps.
+                max_iter : int, optional
+                    Maximum iterations permitted.
+
+                Returns
+                -------
+                system : profess.System
+              )",
             py::arg("energy_tol") = 1e-7,
             py::arg("window_size") = 3,
-            py::arg("max_iter") = 1000)
-
-        // -------------
-        // class methods
-        // -------------
-
-        .def_static(
-            "get_shape",
-            &System::get_shape,
-            "Docstring for get_shape")
-
-        .def_static(
-            "create",
-            py::overload_cast<
-                std::array<std::array<double,3>,3>,
-                double,
-                std::array<std::string,2>
-                >(&System::create),
-            "Docstring for System::create",
-            py::arg("box_vectors"),
-            py::arg("planewave_cutoff"),
-            py::arg("units")=std::array<std::string,2>({"b","h"}))
-
-        .def_static(
-            "create",
-            py::overload_cast<
-                std::array<std::array<double,3>,3>,
-                std::array<size_t,3>,
-                std::string
-                >(&System::create),
-            "Docstring for System::create",
-            py::arg("box_vectors"),
-            py::arg("grid_shape"),
-            py::arg("unit")=std::string{"b"});
+            py::arg("max_iter") = 1000);
 
 }
 

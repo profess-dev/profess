@@ -12,7 +12,7 @@ kernelspec:
   name: python3
 ---
 
-# Hydrogen atom and dimer
+# H and H2
 
 ```{code-cell} ipython3
 import profess
