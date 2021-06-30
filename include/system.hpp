@@ -13,15 +13,22 @@ namespace profess
 
 class System
 {
+
 public:
-
+    // public constructors (named constructor idiom)
+    static
+    System create(
+        std::array<std::array<double,3>,3> box_vectors,
+        double energy_cutoff,
+        std::array<std::string,2> units={"b","h"});
+    static
+    System create_from_grid_shape(
+        std::array<std::array<double,3>,3> box_vectors,
+        std::array<size_t,3> grid_shape,
+        std::string unit={"b"});
+private:
     System(std::array<size_t,3> grid_shape);
-
-    static std::array<size_t,3> get_shape(
-            std::array<std::array<double,3>,3> box_vectors,
-            double energy_cutoff,
-            std::array<std::string,2> units={"b","h"});
-
+public:
     // rule of five
     // copy construction/assignment disabled b/c class has unique ptrs
     ~System() = default;
@@ -47,7 +54,8 @@ public:
     System& add_coulomb_ions(
         double z,
         std::vector<std::array<double,3>> coords,
-        std::string unit={"b"});
+        std::string unit={"b"},
+        double cutoff=-1.0);
     System& add_harmonic_ions();
 
     std::vector<std::array<double,3>> ions_xyz_coords(std::string unit);
@@ -57,28 +65,30 @@ public:
     System& add_ion_electron_functional();
     System& add_luo_karasiev_trickey_functional(double a=1.3,
                                                 double tiny_den=1e-12);
-    System& add_libxc_functional(std::vector<int>);
-    System& add_kinetic_class_a_functional(
+    System& add_libxc_functional(std::vector<int> xc_func_ids);
+    System& add_generic_nonlocal_a_functional(
         double a,
         double b,
         std::function<double(double)> f,
         std::function<double(double)> fp,
-        double den0);
+        double den0=-1);
     System& add_perdew_burke_ernzerhof_functional();
     System& add_perdew_zunger_functional();
-    System& add_perrot_functional(double den0);
-    System& add_smargiassi_madden_functional(double den0);
+    System& add_perrot_functional(double den0=-1.0);
+    System& add_smargiassi_madden_functional(double den0=-1.0);
     System& add_thomas_fermi_functional();
     System& add_wang_govind_carter_functional(
-        double den0,
+        double den0=-1.0,
         double alpha=(5.0+std::sqrt(5.0))/6.0,
         double beta=(5.0-std::sqrt(5.0))/6.0,
         double gamma=2.7);
-    System& add_wang_govind_carter_1999_i_functional(double den0);
-    System& add_wang_teter_functional(double den0);
+    System& add_wang_govind_carter_1999_i_functional(double den0=-1.0);
+    System& add_wang_teter_functional(double den0=-1.0);
     System& add_weizsaecker_functional();
 
     System& remove_functional(std::string name);
+
+    System& add_ion_ion_interaction();
 
     // basic information about the system
     double energy(std::string unit={"h"});
@@ -89,9 +99,10 @@ public:
     double pressure(std::string unit={"h/b3"});
     double enthalpy(std::string unit={"h"});
     double energy_cutoff(std::string unit={"h"});
+    double total_ion_charge();
 
     // basic manipulations
-    System& distribute_electrons_uniformly(const double electrons);
+    System& add_electrons(double electrons=-1.0);
     System& move_ions(
             std::vector<std::array<double,3>> xyz_coords,
             std::string length_unit={"b"});
@@ -110,6 +121,10 @@ public:
         double energy_tol=1e-5,
         size_t window_size=3,
         size_t max_iter=100);
+
+private:
+
+    bool _ion_ion_interaction = false;
 };
 
 }

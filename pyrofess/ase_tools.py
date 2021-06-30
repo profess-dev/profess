@@ -27,8 +27,8 @@ def init_optimizer(atoms, algorithm):
     return optimizer
 
 def minimize_forces(system, algorithm, fmax=1e-4, steps=100):
-    atoms = Atoms('H' + str(system.ions.count()),
-            positions=system.ions.xyz_coords(),
+    atoms = Atoms('H' + str(len(system.ions_xyz_coords())),
+            positions=system.ions_xyz_coords(),
             cell=system.box_vectors(),
             pbc=True)
     atoms.calc = Profess(system)
@@ -44,8 +44,8 @@ def minimize_stress(
         hydrostatic_strain=False,
         constant_volume=False,
         scalar_pressure=0.0):
-    atoms = Atoms('H' + str(system.ions.count()),
-            positions=system.ions.xyz_coords(),
+    atoms = Atoms('H' + str(len(system.ions_xyz_coords())),
+            positions=system.ions_xyz_coords(),
             cell=system.box_vectors(),
             pbc=True)
     atoms.calc = Profess(system)
@@ -67,7 +67,7 @@ def minimize_forces_stress(
         hydrostatic_strain=False,
         constant_volume=False,
         scalar_pressure=0.0):
-    atoms = Atoms('H' + str(system.ions.count()),
+    atoms = Atoms('H' + str(len(system.ions_xyz_coords())),
             positions=system.ions_xyz_coords(),
             cell=system.box_vectors(),
             pbc=True)
@@ -102,4 +102,4 @@ def optimize_geometry(init_system, box_vectors, xyz_coords, energy_cutoff):
             return system
         else:
             box_vectors = np.array(system.box.vectors()).T
-            xyz_coords = np.array(system.ions.xyz_coords())
+            xyz_coords = np.array(system.ions_xyz_coords())

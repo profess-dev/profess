@@ -34,20 +34,18 @@
 
 #include <iostream>
 
-namespace profess
-{
+namespace profess {
 
 System::System(std::array<size_t,3> grid_shape)
     : box({{{1.0,0.0,0.0},{0.0,1.0,0.0},{0.0,0.0,1.0}}}),
       grid_shape(grid_shape),
       electron_density(Double3D(grid_shape))
-{
-}
+{}
 
-std::array<size_t,3> System::get_shape(
-        std::array<std::array<double,3>,3> box_vectors,
-        double energy_cutoff,
-        std::array<std::string,2> units)
+System System::create(
+    std::array<std::array<double,3>,3> box_vectors,
+    double energy_cutoff,
+    std::array<std::string,2> units)
 {
     box_vectors = units::convert_length(box_vectors, units[0], {"b"});
     energy_cutoff = units::convert_energy(energy_cutoff, units[1], {"h"}); 
@@ -59,7 +57,19 @@ std::array<size_t,3> System::get_shape(
     size_t n0 = std::ceil(wavevector_cutoff*l0/(2.0*M_PI));
     size_t n1 = std::ceil(wavevector_cutoff*l1/(2.0*M_PI));
     size_t n2 = std::ceil(wavevector_cutoff*l2/(2.0*M_PI));
-    return {2*n0+1, 2*n1+1, 2*n2+1};
+    System system({2*n0+1, 2*n1+1, 2*n2+1});
+    system.set_box(box_vectors);
+    return system;
+}
+
+System System::create_from_grid_shape(
+    std::array<std::array<double,3>,3> box_vectors,
+    std::array<size_t,3> grid_shape,
+    std::string unit)
+{
+    System system(grid_shape);
+    system.set_box(box_vectors, unit);
+    return system;
 }
 
 std::array<std::array<double,3>,3> System::box_vectors(std::string unit)
@@ -93,9 +103,10 @@ System& System::add_ions(
 System& System::add_coulomb_ions(
     double z,
     std::vector<std::array<double,3>> coords,
-    std::string unit)
+    std::string unit,
+    double cutoff)
 {
-    ions.add_ion_type_coulomb(z);
+    ions.add_ion_type_coulomb(z, cutoff);
     coords = units::convert_length(coords, unit, {"b"});
     auto ion_coords = ions.xyz_coords();
     ion_coords.insert(ion_coords.end(), coords.begin(), coords.end());
@@ -105,6 +116,11 @@ System& System::add_coulomb_ions(
     auto new_ids = std::vector<size_t>(coords.size(), id);
     ion_ids.insert(ion_ids.end(), new_ids.begin(), new_ids.end());
     ions.set_ions(ion_coords, ion_ids); 
+    return *this;
+}
+
+System& System::add_harmonic_ions()
+{
     return *this;
 }
 
@@ -149,32 +165,32 @@ System& System::add_libxc_functional(std::vector<int> ids)
     return *this;
 }
 
-System& System::add_kinetic_class_a_functional(
+System& System::add_generic_nonlocal_a_functional(
         double a,
         double b,
         std::function<double(double)> f,
         std::function<double(double)> fp,
         double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<KineticClassA>(
             box, grid_shape, a, b, f, fp, den0));
     return *this;
 }
 
-System& System::add_perdew_burke_ernzerhof_functional()
-{
+System& System::add_perdew_burke_ernzerhof_functional() {
     functionals.emplace_back(std::make_unique<PerdewBurkeErnzerhof>(box));
     return *this;
 }
 
-System& System::add_perdew_zunger_functional()
-{
+System& System::add_perdew_zunger_functional() {
     functionals.emplace_back(std::make_unique<PerdewZunger>(box));
     return *this;
 }
 
 System& System::add_perrot_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<Perrot>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -182,6 +198,7 @@ System& System::add_perrot_functional(double den0)
 
 System& System::add_smargiassi_madden_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<SmargiassiMadden>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -196,6 +213,7 @@ System& System::add_thomas_fermi_functional()
 System& System::add_wang_govind_carter_functional(
     double den0, double alpha, double beta, double gamma)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(
         std::make_unique<WangGovindCarter>(
             box.vectors(), grid_shape, den0, alpha, beta, gamma));
@@ -204,6 +222,7 @@ System& System::add_wang_govind_carter_functional(
 
 System& System::add_wang_govind_carter_1999_i_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<WangGovindCarter1999I>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -211,6 +230,7 @@ System& System::add_wang_govind_carter_1999_i_functional(double den0)
 
 System& System::add_wang_teter_functional(double den0)
 {
+    if (den0 < 0) den0 = total_ion_charge() / volume();
     functionals.emplace_back(std::make_unique<WangTeter>(
             box.vectors(), grid_shape, den0));
     return *this;
@@ -228,6 +248,12 @@ System& System::remove_functional(std::string name)
 
         if (functionals[i]->name() == name) functionals.erase(functionals.begin()+i);
     }
+    return *this;
+}
+
+System& System::add_ion_ion_interaction()
+{
+    _ion_ion_interaction = true;
     return *this;
 }
 
@@ -255,12 +281,10 @@ std::tuple<double, Double3D> System::energy_potential(bool compute_ion_ion)
         //std::cout << f->name() << "->  " << ene << std::endl;
     }
 
-    if (compute_ion_ion) {
-        ene = IonIon().energy(
-                box.vectors(),
-                ions);
-        energy += ene;
-        //std::cout << "ion-ion" << "->  " << std::setprecision(12) << ene << std::endl;
+    if (_ion_ion_interaction) {
+        if (compute_ion_ion) {
+            energy += IonIon().energy(box.vectors(), ions);
+        }
     }
 
     return std::make_tuple(energy, potential);
@@ -337,9 +361,18 @@ double System::energy_cutoff(std::string unit)
     return units::convert_energy(cutoff, {"h"}, unit);
 }
 
-System& System::distribute_electrons_uniformly(const double electrons)
+double System::total_ion_charge()
 {
-    electron_density.fill(electrons / box.volume());
+    return ions.count_charge();
+}
+
+System& System::add_electrons(double electrons)
+{
+    if (electrons < 0.0) {
+        electron_density.fill(total_ion_charge() / box.volume());
+    } else {
+        electron_density.fill(electrons / box.volume());
+    }
     return *this;
 }
 

@@ -87,27 +87,51 @@ std::vector<std::function<double(double)>>
     return _ft_potential_derivatives;
 }
 
-Ions& Ions::add_ion_type_coulomb(double z)
+Ions& Ions::add_ion_type_coulomb(double z, double cutoff)
 {
     _charges.emplace_back(z);
-    _ft_potentials.emplace_back(
-        [z](double k) {
-            if (k<1e-8) {
-                return 0.0;
-            } else {
-                return -4.0*M_PI*z/(k*k);
+    // no cutoff
+    if (cutoff < 0.0) {
+        _ft_potentials.emplace_back(
+            [z](double k) {
+                if (k<1e-8) {
+                    return 0.0;
+                } else {
+                    return -4.0*M_PI*z/(k*k);
+                }
             }
-        }
-    );
-    _ft_potential_derivatives.emplace_back(
-        [z](double k) {
-            if (k<1e-8) {
-                return 0.0;
-            } else {
-                return 8.0*M_PI*z/(k*k*k);
+        );
+        _ft_potential_derivatives.emplace_back(
+            [z](double k) {
+                if (k<1e-8) {
+                    return 0.0;
+                } else {
+                    return 8.0*M_PI*z/(k*k*k);
+                }
             }
-        }
-    );
+        );
+    // with cutoff
+    } else {
+        _ft_potentials.emplace_back(
+            [z,cutoff](double k) {
+                if (k<1e-8) {
+                    return -2.0*M_PI*z*cutoff*cutoff;
+                } else {
+                    return -4.0*M_PI*z/(k*k)*(1.0-std::cos(k*cutoff));
+                }
+            }
+        );
+        _ft_potential_derivatives.emplace_back(
+            [z,cutoff](double k) {
+                if (k<1e-8) {
+                    return 0.0;
+                } else {
+                    return 8.0*M_PI*z/(k*k*k)*(
+                        1.0-std::cos(k*cutoff)-0.5*k*cutoff*std::sin(k*cutoff));
+                }
+            }
+        );
+    }
     return *this;
 }
 

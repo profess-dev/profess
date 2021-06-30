@@ -12,34 +12,33 @@ import ase_tools
 from tools_for_tests import murnaghan
 sys.path.append(os.path.join(os.path.dirname(
         os.path.abspath(__file__)), '../build/'))
-import pyrofess as profess
+import profess
 
 class TestGeomOpt(unittest.TestCase):
 
     def test_bcc_lithium(self):
 
         # create system and compute ground state energy
-        system = profess.System([15,15,15])
-        box_vectors = 3.48*np.eye(3)
-        system.set_box(box_vectors, 'a')
-        system.add_ions(
-            'potentials/li.gga.recpot',
-            box_vectors[0,0]*np.array([[0,0,0],[0.5,0.5,0.5]]),
-            'a')
-        den0 = system.ions.count_charge() / system.volume()
-        (
-        system
-               .add_hartree_functional()
-               .add_ion_electron_functional()
-               .add_perdew_burke_ernzerhof_functional()
-               .add_wang_teter_functional(den0)
+        box_len = 3.48
+        box_vecs = box_len*np.identity(3)
+        system = (
+            profess.System.create_from_grid_shape(box_vecs, [15,15,15], 'a')
+            .add_ions(
+                'potentials/li.gga.recpot',
+                box_len*np.array([[0,0,0],[0.5,0.5,0.5]]),
+                'a')
+            .add_electrons()
+            .add_wang_teter_functional()
+            .add_hartree_functional()
+            .add_perdew_burke_ernzerhof_functional()
+            .add_ion_electron_functional()
+            .add_ion_ion_interaction()
         )
-        system.distribute_electrons_uniformly(system.ions.count_charge())
         system.minimize_energy()
         energy = system.energy()
         # peturb ions, then restore by minimizing forces, keeping box fixed
         system.move_ions(
-            box_vectors[0,0]*np.array([[0.0,0.1,0.0],[0.6,0.4,0.6]]),
+            box_len*np.array([[0.0,0.1,0.0],[0.6,0.4,0.6]]),
             'a')
         ase_tools.minimize_forces(system, 'BFGSLineSearch', 1e-4)
         self.assertAlmostEqual(energy, system.energy(), places=5)
