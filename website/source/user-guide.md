@@ -15,7 +15,7 @@ user-guide/inspect
 user-guide/modify
 ```
 
-Most users will only requre the ``profess.System`` class. The relevant commands fall into three categories:
+Most users will only require the ``profess.System`` class. The relevant commands fall into three categories:
 
 * {doc}`building a new system <user-guide/build>`;
 * {doc}`inspecting the system <user-guide/inspect>`;
