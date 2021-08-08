@@ -86,7 +86,7 @@ ene_fcc = system.energy('ev')
 ## Gibbs free energy with Phonopy
 
 Finally, we use ``Phonopy`` to compute Gibbs free energies with the quasi-harmonic approximation.
-See the `Phonopy documentation <https://phonopy.github.io/phonopy/phonopy-module.html>`_ for more details.
+See the [Phonopy documentation](https://phonopy.github.io/phonopy/phonopy-module.html) for more details.
 
 The thermal analysis explains why the bcc structure is observed at room temperature, despite fcc having slighly lower energy as $T\to 0$. The difference between the energies obtained in the previous section and the $T\to 0$ energies in the plot are the zero-point energies.
 
