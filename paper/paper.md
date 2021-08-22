@@ -15,17 +15,17 @@ authors:
     orcid: 0000-0001-7330-7554
     affiliation: "4, 5, 6"
 affiliations:
-  - name: Department of Materials Science and Metallurgy | University of Cambridge | Cambridge, United Kingdom
+  - name: Department of Materials Science and Metallurgy, University of Cambridge
     index: 1
-  - name: Christ's College | University of Cambridge | Cambridge, United Kingdom
+  - name: Christ's College, University of Cambridge
     index: 2
-  - name: Advanced Institute for Materials Research | Tohoku University | Sendai, Japan
+  - name: Advanced Institute for Materials Research, Tohoku University
     index: 3
-  - name: Department of Mechanical and Aerospace Engineering | Princeton University | Princeton, New Jersey, United States
+  - name: Department of Mechanical and Aerospace Engineering, Princeton University
     index: 4
-  - name: Department of Chemical and Biomolecular Engineering | University of California, Los Angeles | Los Angeles, California, United States
+  - name: Department of Chemical and Biomolecular Engineering, University of California, Los Angeles
     index: 5
-  - name: Office of the Chancellor | University of California, Los Angeles | Los Angeles, California, United States
+  - name: Office of the Chancellor, University of California, Los Angeles
     index: 6
 date: 22 August 2021
 bibliography: paper.bib
