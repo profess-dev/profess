@@ -7,8 +7,7 @@ tags:
 authors:
   - name: William C. Witt^[corresponding author]
     orcid: 0000-0002-1578-1888
-    affiliation: "1"
-#    affiliation: "1, 2"
+    affiliation: "1, 2"
   - name: Chris J. Pickard
     orcid: 0000-0002-9684-5432
     affiliation: "1, 3"
@@ -18,8 +17,8 @@ authors:
 affiliations:
   - name: Department of Materials Science and Metallurgy, University of Cambridge, Cambridge, United Kingdom
     index: 1
-#  - name: Christ's College, University of Cambridge, Cambridge, United Kingdom
-#    index: 2
+  - name: Christ's College, University of Cambridge, Cambridge, United Kingdom
+    index: 2
   - name: Advanced Institute for Materials Research, Tohoku University, Sendai, Japan
     index: 3
   - name: Department of Mechanical and Aerospace Engineering, Princeton University, Princeton, New Jersey, United States
@@ -31,6 +30,8 @@ affiliations:
 date: 22 August 2021
 bibliography: paper.bib
 ---
+
+# Summary
 
 A key endeavor of computational physics is to predict and interpret the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success at this task, providing both a rigorous framework and pragmatic approximate implementations. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which, while simultaneously older and less well-developed than conventional DFT, offers an especially elegant and computationally efficient approach to the electronic structure problem. Something about the type of problems OF-DFT can solve.
 
