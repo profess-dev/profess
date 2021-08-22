@@ -39,7 +39,9 @@ The radical difference between orbital-free DFT and conventional DFT is that the
 
 PROFESS  is a high-performance engine for orbital-free DFT.
 
-### The core task in orbital-free DFT
+# Statement of need
+
+# Orbital-free DFT
 
 As authorized by the foundational theorems of density functional theory, orbital-free DFT finds the ground state energy, $E_0$, by solving a minimization problem,
 $$
@@ -52,7 +54,7 @@ $$
 $$
 where $v(\mathbf{r})$ is the potential associated with the energy functional: $v(\mathbf{r}) = \delta E / \delta n(\mathbf{r})$.
 
-### PROFESS 4
+# PROFESS 4
 
 completely new
 main codebase is modern C++
@@ -75,12 +77,12 @@ The PROFESS 4 code is completely new, although it draws on the innovations of ea
 
 * _Rapid prototyping_. Frequently, we have found it easier to develop and test new features in Python, before ultimately translating them into compiled code. Such hybrid workflows were generally impossible with older versions of PROFESS.
 
-### Example application
+# Example application
 
 mention random structure searching too
 
 
-### notes
+# notes
 
 Completely rewritten
 Primarily C++ with Python wrappers for everything
@@ -94,7 +96,7 @@ Prioritizing interoperability
 GPU
 
 
-### Acknowledgements
+# Acknowledgements
 
 Wojciech Jankowski, Chuin Wei Tan, Thomas Ginnis, Pascal Salzbrenner
 Johannes Dieterich, Florian Libisch
