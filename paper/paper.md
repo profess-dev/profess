@@ -5,25 +5,31 @@ tags:
   - density functional theory
   - orbital-free density functional theory
 authors:
-  - name: Adrian M. Price-Whelan^[co-first author] # note this makes a footnote saying 'co-first author'
-    orcid: 0000-0003-0872-7098
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
-  - name: Author Without ORCID^[co-first author] # note this makes a footnote saying 'co-first author'
-    affiliation: 2
-  - name: Author with no affiliation^[corresponding author]
-    affiliation: 3
+  - name: William C. Witt^[corresponding author]
+    orcid: 0000-0002-1578-1888
+    affiliation: "1, 2"
+  - name: Chris J. Pickard
+    orcid: 0000-0002-9684-5432
+    affiliation: "1, 3"
+  - name: Emily A. Carter
+    orcid: 0000-0001-7330-7554
+    affiliation: "4, 5, 6"
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University
-   index: 1
- - name: Institution Name
-   index: 2
- - name: Independent Researcher
-   index: 3
-date: August 2021
+  - name: Department of Materials Science and Metallurgy, University of Cambridge, Cambridge, U.K.
+    index: 1
+  - name: Christ's College, University of Cambridge, Cambridge, U.K
+    index: 2
+  - name: Advanced Institute for Materials Research, Tohoku University, Sendai, Japan
+    index: 3
+  - name: Department of Mechanical and Aerospace Engineering, Princeton University, Princeton, New Jersey 08544-5263, United States
+    index: 4
+  - name: Department of Chemical and Biomolecular Engineering, University of California, Los Angeles, Los Angeles, California 90095-1592, United States
+    index: 5
+  - name: Office of the Chancellor, University of California, Los Angeles, Los Angeles, California 90095-1405, United States
+    index: 6
+date: 22 August 2021
 bibliography: paper.bib
 ---
-
-# A new PROFESS: Interoperable orbital-free density functional theory with PROFESS 4
 
 A key endeavor of computational physics is to predict and interpret the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success at this task, providing both a rigorous framework and pragmatic approximate implementations. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which, while simultaneously older and less well-developed than conventional DFT, offers an especially elegant and computationally efficient approach to the electronic structure problem. Something about the type of problems OF-DFT can solve.
 
