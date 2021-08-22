@@ -7,7 +7,8 @@ tags:
 authors:
   - name: William C. Witt^[corresponding author]
     orcid: 0000-0002-1578-1888
-    affiliation: "1, 2"
+    affiliation: "1"
+#    affiliation: "1, 2"
   - name: Chris J. Pickard
     orcid: 0000-0002-9684-5432
     affiliation: "1, 3"
@@ -15,17 +16,17 @@ authors:
     orcid: 0000-0001-7330-7554
     affiliation: "4, 5, 6"
 affiliations:
-  - name: Department of Materials Science and Metallurgy, University of Cambridge, Cambridge, U.K.
+  - name: Department of Materials Science and Metallurgy, University of Cambridge, Cambridge, United Kingdom
     index: 1
-  - name: Christ's College, University of Cambridge, Cambridge, U.K
-    index: 2
+#  - name: Christ's College, University of Cambridge, Cambridge, United Kingdom
+#    index: 2
   - name: Advanced Institute for Materials Research, Tohoku University, Sendai, Japan
     index: 3
-  - name: Department of Mechanical and Aerospace Engineering, Princeton University, Princeton, New Jersey 08544-5263, United States
+  - name: Department of Mechanical and Aerospace Engineering, Princeton University, Princeton, New Jersey, United States
     index: 4
-  - name: Department of Chemical and Biomolecular Engineering, University of California, Los Angeles, Los Angeles, California 90095-1592, United States
+  - name: Department of Chemical and Biomolecular Engineering, University of California, Los Angeles, Los Angeles, California, United States
     index: 5
-  - name: Office of the Chancellor, University of California, Los Angeles, Los Angeles, California 90095-1405, United States
+  - name: Office of the Chancellor, University of California, Los Angeles, Los Angeles, California, United States
     index: 6
 date: 22 August 2021
 bibliography: paper.bib
