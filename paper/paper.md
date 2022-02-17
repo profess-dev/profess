@@ -33,7 +33,9 @@ bibliography: paper.bib
 
 # Summary
 
-A core endeavor of computational physics is to predict and interpret the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT. The orbital-free approach uses the electron density alone—no wave functions—to determine the energy of a many-electron system. This simplification, while imposing a few extra challenges, offers an especially elegant and computationally efficient solution to the electronic structure problem.  For an ever-increasing category of materials, problems involving length and time scales inaccessible with conventional DFT can become routine. This new version of PROFESS, completely rewritten, performs such simulations and will promote rapid development and adoption of orbital-free DFT
+A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing Schrödinger's equation entirely—to assess a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
+
+This new version of PROFESS, completely rewritten, performs such simulations and will promote rapid development and adoption of orbital-free DFT.
 
 # Statement of need
 
@@ -61,13 +63,13 @@ main codebase is modern C++
 deep access to the C++ classes is provided with aid from the pybind11 wrapping tool
 
 This strategy confers a few benefits:
+
 * interoperability with other tools
     * "glue languages"
     * PROFESS@QE
     * phonopy and ATAT.
 * unit testing
 * rapid development
-
 
 The PROFESS 4 code is completely new, although it draws on the innovations of earlier PROFESS releases. Its main features are implemented in modern C++; however, deep access from Python is provided with the pybind11 wrapping tool. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools in the materials modelling software ecosystem. The same philosophy is adopted, for example, by the Psi4 code.
 
@@ -82,18 +84,22 @@ The PROFESS 4 code is completely new, although it draws on the innovations of ea
 mention random structure searching too
 
 
+# detritus
+
+For an ever-increasing set of materials, problems involving length and time scales inaccessible with competing methods can become routine. 
+
 # notes
 
-Completely rewritten
-Primarily C++ with Python wrappers for everything
-Prioritizing modularity
-  DEFT for math operations
-  Separate things (like Ewald sum) teased out
-  Functionals easily loaded into Python
-  libKEDF
-Prioritizing interoperability
-  Many examples
-GPU
+* Completely rewritten
+* Primarily C++ with Python wrappers for everything
+* Prioritizing modularity
+    *  DEFT for math operations
+    *  Separate things (like Ewald sum) teased out
+    *  Functionals easily loaded into Python
+    * libKEDF
+* Prioritizing interoperability
+    *  Many examples
+* GPU
 
 
 # Acknowledgements
