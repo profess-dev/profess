@@ -33,13 +33,13 @@ bibliography: paper.bib
 
 # Summary
 
-A key endeavor of computational physics is to predict and interpret the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success at this task, providing both a rigorous framework and pragmatic approximate implementations. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which, while simultaneously older and less well-developed than conventional DFT, offers an especially elegant and computationally efficient approach to the electronic structure problem. Something about the type of problems OF-DFT can solve.
+A core endeavor of computational physics is to predict and interpret the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT. The orbital-free approach uses the electron density alone—no wave functions—to determine the energy of a many-electron system. This simplification, while imposing a few extra challenges, offers an especially elegant and computationally efficient solution to the electronic structure problem.  For an ever-increasing category of materials, problems involving length and time scales inaccessible with conventional DFT can become routine. This new version of PROFESS, completely rewritten, performs such simulations and will promote rapid development and adoption of orbital-free DFT
 
-The radical difference between orbital-free DFT and conventional DFT is that the orbital-free variant uses the electron density alone—no wave functions—to determine the energy of a many-electron system. For further distinguishing features of orbital-free DFT, see some review papers.
+# Statement of need
 
 PROFESS  is a high-performance engine for orbital-free DFT.
 
-# Statement of need
+For further distinguishing features of orbital-free DFT, see some review papers. Implementations written completely in Python are now available.
 
 # Orbital-free DFT
 
