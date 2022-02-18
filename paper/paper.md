@@ -1,7 +1,7 @@
 ---
-title: 'PROFESS 4'
+title: 'PROFESS 4: New Horizons for Orbital-free Density Functional Theory'
 tags:
-  - computational materials science
+  - computational physics
   - density functional theory
   - orbital-free density functional theory
 authors:
@@ -31,6 +31,14 @@ date: 22 August 2021
 bibliography: paper.bib
 ---
 
+> Your paper should include:
+> -   A list of the authors of the software and their affiliations, using the correct format (see the example below).
+> -   A summary describing the high-level functionality and purpose of the software for a diverse,  _non-specialist audience_.
+> -   A  _Statement of Need_  section that clearly illustrates the research purpose of the software.
+> -   A list of key references, including to other software addressing related needs. Note that the references should include full names of venues, e.g., journals and conferences, not abbreviations only understood in the context of a specific discipline.
+> -   Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.
+> -   Acknowledgement of any financial support.
+
 # Summary
 
 A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The PROFESS code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing Schrödinger's equation entirely—to assess a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
@@ -39,21 +47,26 @@ This new version of PROFESS, completely rewritten, performs such simulations and
 
 # Statement of need
 
+
+
+
 PROFESS  is a high-performance engine for orbital-free DFT.
 
 For further distinguishing features of orbital-free DFT, see some review papers. Implementations written completely in Python are now available.
 
+Previous versions of `PROFESS` include @ho_introducing_2008, @hung_introducing_2010, and @chen_introducing_2015.
+
 # Orbital-free DFT
 
 As authorized by the foundational theorems of density functional theory, orbital-free DFT finds the ground state energy, $E_0$, by solving a minimization problem,
-$$
+\begin{equation} \label{eq:E0}
 E_0 = \min_n E[n].
-$$
-The function $n(\mathbf{r})$ represents the electron density and $E[n]$ is a functional that returns an energy value all candidate densities. The minimization, which yields the ground state energy, $E_0$, is performed over all admissible density functions, which must have $n(\mathbf{r}) \ge 0$ everywhere and which must integrate to $N$, the total number of electrons.
+\end{equation}
+The function $n(\mathbf{r})$ represents the electron density and $E[n]$ is a functional that returns an energy value all candidate densities. The minimization in \autoref{eq:E0}, which yields the ground state energy, $E_0$, is performed over all admissible density functions, which must have $n(\mathbf{r}) \ge 0$ everywhere and which must integrate to $N$, the total number of electrons.
 One simple method of enforcing such constraints are to write the density as $n(\mathbf{r}) = (N/\bar{N}) \chi^2(\mathbf{r})$, where $\chi$ is an unconstrained auxiliary function and $\bar{N}=\int \chi^2(\mathbf{r}') \, d\mathbf{r}'$. The functional derivative of $E[n]$ with respect to $\chi$, is then
-$$
+\begin{equation} \label{eq:dE_dchi}
 \frac{\delta E}{\delta \chi(\mathbf{r})} = \frac{N}{\bar{N}} \left[v(\mathbf{r}) - \frac{1}{N} \int v(\mathbf{r}) n(\mathbf{r}) \right] ,
-$$
+\end{equation}
 where $v(\mathbf{r})$ is the potential associated with the energy functional: $v(\mathbf{r}) = \delta E / \delta n(\mathbf{r})$.
 
 # PROFESS 4
