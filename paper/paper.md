@@ -33,7 +33,7 @@ bibliography: paper.bib
 
 # Summary
 
-A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The `PROFESS` code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing wave functions and Schrödinger's equation entirely—to characterize a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
+A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The `PROFESS` code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing Schrödinger's equation and its associated wave functions entirely—to characterize a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
 
 The new version of `PROFESS` described here, completely rewritten, is a high-performance engine for orbital-free DFT that will promote its rapid development and adoption.
 
@@ -41,29 +41,15 @@ The new version of `PROFESS` described here, completely rewritten, is a high-per
 
 The materials modelling software ecosystem confronts several disparate aims. Its simulations frequently operate at computing frontiers, demanding optimized methods and code. At the same time, it must incorporate theoretical innovations emerging from many subfields at once, creating strong preferences for modularity and interoperability, as well as a need for efficient prototyping workflows. While `PROFESS` [@ho_introducing_2008; @hung_introducing_2010;  @chen_introducing_2015] has achieved demonstrable success for research applications in materials science [@witt_orbital-free_2018], it was conceived as a self-contained entity. Prior versions lacked agility, constrained by an older paradigm.
 
-This fourth version of `PROFESS` is completely new, although it draws on the innovations of earlier releases. Its main features are implemented in modern C++, compiled as a library. Deep access from both Python and Julia is enabled by `pybind11` and `Cxxwrap.jl`, respectively. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools in the materials modelling software ecosystem.
+This fourth version of `PROFESS` is completely new, although it draws on the innovations of earlier releases. Its main features are implemented in modern C++ code, compiled into a library. Deep access from both Python and Julia is enabled by `pybind11` and `Cxxwrap.jl`, respectively. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools. Benefits include:
 
-* _Interoperability_. Over the past decade, scripting languages like Python have emerged as essential "glue languages," particularly for materials modelling. For example, the Atomic Simulation Environment and Phonopy are two Python-based tools that, when used in conjunction with a DFT code, provide robust geometry optimizations and many other features that are common requirements for DFT codes. Historically, `PROFESS` has been used. A chief example is the `PROFESS@QE` interface, which enables. At the same time, `PROFESS` has been used in conjunction with Phonopy and ATAT. However, older versions of `PROFESS` were predominantly Fortran code, compiled into a standalone executable, these interfaces were frequently brittle and carried an unwelcome maintence burden. We expect that the new design, particularly the clean API and scripting mode, will promote new partnerships of this kind, and will lower the maintence burden.
+* _Interoperability_. Over the past decade, Python and (to a lesser extent) Julia have emerged as essential "glue languages." For example, the Atomic Simulation Environment and Phonopy are two widely used Python-based tools that, when coupled to a DFT code, provide robust geometry optimizations and many other features. As older versions of `PROFESS` were predominantly Fortran code (compiled into a standalone executable), interfaces to such tools were generally brittle and carried an unwelcome maintence burden. The new design, particularly the library interface and scripting modes, will facilitate promote and sustain partnerships of this kind.
 
 * _Unit testing_. A second clear benefit of the new structure is ease of unit testing. Because the C++ classes are individually wrapped and accessible from Python, it is simple to create granular tests of individual components. Moreover, such tests can form an overall framework that facilitates continuous integration.
 
-* _Rapid prototyping_. Frequently, we have found it easier to develop and test new features in Python, before ultimately translating them into compiled code. Such hybrid workflows were generally impossible with older versions of `PROFESS`.
+* _Rapid prototyping_. It is often simpler (and less error-prone) to develop and test new features in a scripting language, before ultimately translating them into compiled code. Such hybrid workflows were generally impossible with older versions of `PROFESS`, but are now routine.
 
-
-> But, its full potential is constrained by its design;
-conceived as a self-contained entity, it is not readily interoperable with other CMS tools. An example illustrates the point: several years ago, another research group (not close collaborators) produced a PROFESS@QuantumEspresso hybrid59 to study the hard-to-access warm dense matter regime with OFDFT functionals—embodying precisely the creative fusion advocated for here. However, the task required an unwelcome amount of hacking, and changes to the progenitor codes have not necessarily propagated gracefully to the hybrid. A central part of the MolSSI mission is to remove impediments of this
-kind, which can “[delay] by years the practical realization of theoretical innovations.”60
-
-> A key task, then—the core of the proposal—is to eliminate any barriers that would impede this researcher’s access to OFDFT energies, forces, and other properties. PROFESS computes first-principles energies (as well as forces and stresses), conducts structural relaxations, and performs MD simulations. 
-
-> completely new
-main codebase is modern C++
-deep access to the C++ classes is provided with aid from the pybind11 wrapping tool
-
->This strategy confers a few benefits:
-
-
-
+All together, the new `PROFESS` structure improves usability and facilitates rapid development, while retaining the advantages of compiled code. For example, recent work using orbital-free DFT for structure prediction with random structure searching would not have been possible with earlier `PROFESS` releases.
 
 # Background
 
@@ -88,12 +74,8 @@ mention random structure searching too
 For an ever-increasing set of materials, problems involving length and time scales inaccessible with competing methods can become routine. 
 
 * Completely rewritten
-* Primarily C++ with Python wrappers for everything
 * Prioritizing modularity
     *  DEFT for math operations
-    *  Separate things (like Ewald sum) teased out
-    *  Functionals easily loaded into Python
-    * libKEDF
 * Prioritizing interoperability
     *  Many examples
 * GPU
