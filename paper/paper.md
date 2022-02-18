@@ -1,5 +1,5 @@
 ---
-title: 'PROFESS 4: New Horizons for Orbital-free Density Functional Theory'
+title: '`PROFESS` 4: New Horizons for Orbital-free Density Functional Theory'
 tags:
   - computational physics
   - density functional theory
