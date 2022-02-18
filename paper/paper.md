@@ -61,9 +61,9 @@ The function $n(\mathbf{r})$ represents the electron density and $E[n]$ is a fun
 
 The minimization in \autoref{eq:E0} is performed over all admissible density functions, which must have $n(\mathbf{r}) \ge 0$ everywhere and which must integrate to $N$, the total number of electrons. One method of enforcing these constraints (used by `PROFESS` 4) is to write the density as $n(\mathbf{r}) = (N/\bar{N}) \chi^2(\mathbf{r})$, where $\chi$ is an unconstrained auxiliary function and $\bar{N}=\int \chi^2(\mathbf{r}') \, d\mathbf{r}'$. The functional derivative of $E[n[\chi]]$ with respect to $\chi$, is then
 \begin{equation} \label{eq:dE_dchi}
-\frac{\delta E}{\delta \chi(\mathbf{r})} = \frac{N}{\bar{N}} \left[v(\mathbf{r}) - \frac{1}{N} \int v(\mathbf{r}) n(\mathbf{r}) \right] ,
+\frac{\delta E}{\delta \chi(\mathbf{r})} = \frac{N}{\bar{N}} \left[\frac{\delta E}{\delta n(\mathbf{r})} - \underbrace{\frac{1}{N} \int v(\mathbf{r}) n(\mathbf{r})}_{\mu} \right] .
 \end{equation}
-where $v(\mathbf{r})$ is the potential associated with the energy functional: $v(\mathbf{r}) = \delta E / \delta n(\mathbf{r})$. Using \autoref{eq:dE_dchi}, it is straightforward to minimize the energy with, for example, a quasi-Newton method.
+Using \autoref{eq:dE_dchi}, it is straightforward to minimize the energy with, for example, a quasi-Newton method, after which one may identify the rightmost term in the brackets as the Fermi energy, $\mu$.
 
 # Example application
 
