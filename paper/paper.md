@@ -31,25 +31,17 @@ date: 22 August 2021
 bibliography: paper.bib
 ---
 
-> Your paper should include:
-> -   A list of the authors of the software and their affiliations, using the correct format (see the example below).
-> -   A summary describing the high-level functionality and purpose of the software for a diverse,  _non-specialist audience_.
-> -   A  _Statement of Need_  section that clearly illustrates the research purpose of the software.
-> -   A list of key references, including to other software addressing related needs. Note that the references should include full names of venues, e.g., journals and conferences, not abbreviations only understood in the context of a specific discipline.
-> -   Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.
-> -   Acknowledgement of any financial support.
-
 # Summary
 
-A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The `PROFESS` code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing Schrödinger's equation entirely—to assess a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
+A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The `PROFESS` code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing wave functions and Schrödinger's equation entirely—to characterize a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
 
-This new version of `PROFESS`, completely rewritten, is a high-performance engine for orbital-free DFT that will promote its rapid development and adoption.
+The new version of `PROFESS` described here, completely rewritten, is a high-performance engine for orbital-free DFT that will promote its rapid development and adoption.
 
 # Statement of need
 
-The materials modelling software ecosystem confronts several disparate aims. Its simulations frequently operate at computing frontiers, demanding optimized methods and code. At the same time, it must incorporate theoretical innovations emerging from many subfields, creating strong preferences for modularity and interoperability, as well as a need for efficient workflows for prototyping new features alongside established methods. While `PROFESS` [@ho_introducing_2008, @hung_introducing_2010, and @chen_introducing_2015] has achieved demonstrable success for research applications in materials science [@witt_orbital-free_2018], it was conceived as a self-contained entity. Prior versions lacked agility, constrained by an older paradigm.
+The materials modelling software ecosystem confronts several disparate aims. Its simulations frequently operate at computing frontiers, demanding optimized methods and code. At the same time, it must incorporate theoretical innovations emerging from many subfields at once, creating strong preferences for modularity and interoperability, as well as a need for efficient prototyping workflows. While `PROFESS` [@ho_introducing_2008; @hung_introducing_2010;  @chen_introducing_2015] has achieved demonstrable success for research applications in materials science [@witt_orbital-free_2018], it was conceived as a self-contained entity. Prior versions lacked agility, constrained by an older paradigm.
 
-This fourth version of `PROFESS` is completely new, although it draws on the innovations of earlier releases. Its main features are implemented in modern C++; however, deep access from Python is provided with the pybind11 wrapping tool. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools in the materials modelling software ecosystem.
+This fourth version of `PROFESS` is completely new, although it draws on the innovations of earlier releases. Its main features are implemented in modern C++, compiled as a library. Deep access from both Python and Julia is enabled by `pybind11` and `Cxxwrap.jl`, respectively. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools in the materials modelling software ecosystem.
 
 * _Interoperability_. Over the past decade, scripting languages like Python have emerged as essential "glue languages," particularly for materials modelling. For example, the Atomic Simulation Environment and Phonopy are two Python-based tools that, when used in conjunction with a DFT code, provide robust geometry optimizations and many other features that are common requirements for DFT codes. Historically, `PROFESS` has been used. A chief example is the `PROFESS@QE` interface, which enables. At the same time, `PROFESS` has been used in conjunction with Phonopy and ATAT. However, older versions of `PROFESS` were predominantly Fortran code, compiled into a standalone executable, these interfaces were frequently brittle and carried an unwelcome maintence burden. We expect that the new design, particularly the clean API and scripting mode, will promote new partnerships of this kind, and will lower the maintence burden.
 
@@ -69,15 +61,6 @@ main codebase is modern C++
 deep access to the C++ classes is provided with aid from the pybind11 wrapping tool
 
 >This strategy confers a few benefits:
-
->* interoperability with other tools
-    * "glue languages"
-    * `PROFESS@QE`
-    * phonopy and ATAT.
->* unit testing
->* rapid development
-
-
 
 
 
