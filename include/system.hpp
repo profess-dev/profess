@@ -93,7 +93,7 @@ public:
     // basic information about the system
     double energy(std::string unit={"h"});
     std::tuple<double, Double3D> energy_potential(bool compute_ion_ion=true);
-    std::vector<std::array<double,3>> forces();
+    std::vector<std::array<double,3>> forces(std::string unit={"h/b"});
     std::array<std::array<double,3>,3> stress(std::string unit={"h/b3"});
     double volume(std::string unit={"b3"});
     double pressure(std::string unit={"h/b3"});

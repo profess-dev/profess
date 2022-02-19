@@ -48,6 +48,15 @@ std::array<std::array<double,3>,3> convert_pressure(
         std::array<std::array<double,3>,3> pressures,
         std::string in,
         std::string out);
+
+// force unit: hartree/bohr
+const double _to_electron_volts_per_angstrom = _to_electron_volts / _to_angstroms;
+double convert_force(double force, std::string in, std::string out);
+std::vector<std::array<double,3>> convert_force(
+        std::vector<std::array<double,3>> forces,
+        std::string in,
+        std::string out);
+
 }
 
 }

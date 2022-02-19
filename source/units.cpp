@@ -136,6 +136,34 @@ std::array<std::array<double,3>,3> convert_pressure(
     return new_pressures;
 }
 
+double convert_force(double force, std::string in, std::string out)
+{
+    if (in == "h/b") {
+        if (out == "h/b") return force;
+        if (out == "ev/a") return force * _to_electron_volts_per_angstrom;
+    } else if (in == "ev/a") {
+        if (out == "h/b") return force / _to_electron_volts_per_angstrom;
+        if (out == "ev/a") return force;
+    }
+
+    // should have returned by now
+    throw std::runtime_error("units error");
+}
+
+std::vector<std::array<double,3>> convert_force(
+        std::vector<std::array<double,3>> forces,
+        std::string in,
+        std::string out)
+{
+    auto new_forces = forces;
+    for (auto& array : new_forces) {
+        for (auto& element : array) {
+            element = convert_force(element, in, out);
+        }
+    }
+    return new_forces;
+}
+
 }
 
 }
