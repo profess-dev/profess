@@ -33,25 +33,11 @@ bibliography: paper.bib
 
 A core endeavor of computational physics is to determine the properties of materials from quantum-mechanical first principles. Density functional theory (DFT) has achieved remarkable success in this effort, providing both a rigorous framework and pragmatic approximations applicable across material classes. The `PROFESS` code (“PRinceton Orbital-Free Electronic Structure Software”) implements orbital-free DFT, which uses the electron density alone—bypassing Schrödinger's equation and its associated wave functions entirely—to characterize a many-electron system. This formulation, while imposing a few extra challenges, remains exact in principle and offers an especially elegant and computationally efficient solution to the electronic structure problem.
 
-The new version of `PROFESS` described here, completely rewritten, is a high-performance engine for orbital-free DFT that will promote its rapid development and adoption.
+The new version of `PROFESS`, completely rewritten, is a high-performance engine for orbital-free DFT that will facilitate its rapid development and adoption.
 
-# Statement of need
+# Background
 
-The materials modelling software ecosystem confronts several disparate aims. Its simulations frequently operate at computing frontiers, demanding optimized methods and code. At the same time, it must incorporate theoretical innovations emerging from many subfields at once, creating strong preferences for modularity and interoperability, as well as a need for efficient prototyping workflows. While `PROFESS` [@ho_introducing_2008; @hung_introducing_2010;  @chen_introducing_2015] has achieved demonstrable success for research applications in materials science [@witt_orbital-free_2018], it was conceived as a self-contained entity. Prior versions lacked agility, constrained by an older paradigm.
-
-This fourth version of `PROFESS` is completely new, although it draws on the innovations of earlier releases. Its main features are implemented in modern C++ code, compiled into a library. Deep access from both Python and Julia is enabled by `pybind11` and `CxxWrap.jl`, respectively. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools. Benefits include:
-
-* _Interoperability_. Over the past decade, Python and (to a lesser extent) Julia have emerged as essential "glue languages." For example, the Atomic Simulation Environment [@larsen_atomic_2017] and Phonopy [@togo_first_2015] are two widely used Python-based tools that, when coupled to a DFT code, provide robust geometry optimizations and many other features. As older versions of `PROFESS` were predominantly Fortran code (compiled into a standalone executable), interfaces to such tools were generally brittle and carried an unwelcome maintenance burden. The new design, particularly the library interface and scripting modes, eliminates these barriers.
-
-* _Unit testing_. A second clear benefit of the new structure is ease of unit testing. Because the C++ classes are individually wrapped and accessible from Python, it is simple to create granular tests of individual components. Moreover, such tests can form an overall framework that facilitates continuous integration.
-
-* _Rapid prototyping_. It is often simpler (and less error-prone) to develop and test extensions in a scripting language, before ultimately translating them into compiled code. Such hybrid workflows were generally impossible with older versions of `PROFESS`, but are now routine.
-
-All together, the new `PROFESS` structure improves usability and facilitates rapid development, while retaining the advantages of compiled code. For example, recent work using orbital-free DFT for crystal structure prediction with random structure searching would not have been possible with earlier `PROFESS` releases.
-
-# Brief background
-
-As authorized by the foundational theorems of DFT [@hohenberg_inhomogeneous_1964; @kohn_self-consistent_1965], `PROFESS` finds the ground state energy, $E_0$, of a many-electron system by solving a minimization problem,
+Using the foundational theorems of density functional theory (DFT) [@hohenberg_inhomogeneous_1964; @kohn_self-consistent_1965], `PROFESS` finds the ground state energy, $E_0$, of a many-electron system by solving a minimization problem,
 \begin{equation} \label{eq:E0}
 E_0 = \min_n E[n].
 \end{equation}
@@ -62,6 +48,20 @@ The minimization in \autoref{eq:E0} is performed over all admissible density fun
 \frac{\delta E}{\delta \chi(\mathbf{r})} = \frac{N}{\bar{N}} \left[\frac{\delta E}{\delta n(\mathbf{r})} - \underbrace{\frac{1}{N} \int v(\mathbf{r}) n(\mathbf{r})}_{\mu} \right] .
 \end{equation}
 Using \autoref{eq:dE_dchi}, it is straightforward to minimize the energy with, for example, a quasi-Newton method, after which one may identify the rightmost term in the brackets as the Fermi energy, $\mu$.
+
+# Statement of need
+
+Materials modelling software must achieve several disparate aims. Its simulations frequently operate at computing frontiers, demanding optimized methods and code. At the same time, it must incorporate theoretical innovations emerging from many subfields at once, creating strong preferences for modularity and interoperability, as well as a need for efficient prototyping workflows. While `PROFESS` [@ho_introducing_2008; @hung_introducing_2010;  @chen_introducing_2015] has achieved demonstrable success for research applications in materials science [@witt_orbital-free_2018], it was conceived as a self-contained entity. Prior versions lacked agility, constrained by an older paradigm.
+
+This fourth version of `PROFESS` is completely new, although it draws on the innovations of earlier releases. Its main features are implemented in modern C++ code, compiled into a library. Deep access from both Python and Julia is enabled by `pybind11` and `CxxWrap.jl`, respectively. This structure, without sacrificing performance, facilitates rapid scripting of common tasks, as well as frictionless partnerships with complementary tools. Benefits include:
+
+* _Interoperability_. Over the past decade, Python and (more recently) Julia have emerged as essential "glue languages." For example, the Atomic Simulation Environment [@larsen_atomic_2017] and Phonopy [@togo_first_2015] are two widely used Python-based tools that, when coupled to a DFT code, provide robust geometry optimizations and many other features. As older versions of `PROFESS` were predominantly Fortran code compiled into a standalone executable, interfaces to such tools were generally brittle and carried an unwelcome maintenance burden. The new design, particularly the library interface and scripting modes, eliminates these barriers.
+
+* _Unit testing_. A second clear benefit of the new structure is ease of unit testing. Because the C++ classes are individually wrapped and accessible from Python, it is simple to create granular tests of individual components. Moreover, such tests can form an overall framework that facilitates continuous integration.
+
+* _Rapid prototyping_. It is often simpler (and less error-prone) to develop and test extensions in a scripting language, before ultimately translating them into compiled code. Such hybrid workflows were generally impossible with older versions of `PROFESS`, but are now routine.
+
+All together, the new `PROFESS` structure improves usability and facilitates rapid development, while retaining the advantages of compiled code. For example, recent work using orbital-free DFT for crystal structure prediction was enabled by the robust geometry optimizations offered by the Atomic Simulation Environment and would not have been possible with earlier `PROFESS` releases.
 
 # Example application
 
