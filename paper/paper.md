@@ -21,12 +21,10 @@ affiliations:
     index: 2
   - name: Advanced Institute for Materials Research, Tohoku University
     index: 3
-  - name: Department of Mechanical and Aerospace Engineering, Princeton University
+  - name: Department of Mechanical and Aerospace Engineering, Andlinger Center for Energy and the Environment, and Department of Applied and Computational Mathematics, Princeton University
     index: 4
-  - name: Department of Chemical and Biomolecular Engineering, University of California, Los Angeles
+  - name: Princeton Plasma Physics Laboratory
     index: 5
-  - name: Office of the Chancellor, University of California, Los Angeles
-    index: 6
 date: 22 August 2021
 bibliography: paper.bib
 ---
