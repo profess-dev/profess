@@ -290,7 +290,7 @@ std::tuple<double, Double3D> System::energy_potential(bool compute_ion_ion)
     return std::make_tuple(energy, potential);
 }
 
-std::vector<std::array<double,3>> System::forces()
+std::vector<std::array<double,3>> System::forces(std::string unit)
 {
     profess::IonElectron IonElectron(
             electron_density.shape(),
@@ -303,7 +303,7 @@ std::vector<std::array<double,3>> System::forces()
             forces[i][j] += forces_ii[i][j];
         }
     }
-    return forces;
+    return units::convert_force(forces, {"h/b"}, unit);
 }
 
 std::array<std::array<double,3>,3> System::stress(std::string unit)

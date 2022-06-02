@@ -115,7 +115,7 @@ PYBIND11_MODULE(profess, m) {
             "forces",
             &System::forces,
             R"(
-                forces(unit=?)
+                forces(unit="h/b")
                 
                 Forces on ions.
                 
@@ -127,7 +127,8 @@ PYBIND11_MODULE(profess, m) {
                 Returns
                 -------
                 forces : array_like
-            )")
+            )",
+            py::arg("unit")=std::string{"h/b"})
 
         .def(
             "stress",

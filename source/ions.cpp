@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <stdexcept>
 
 namespace profess
 {
@@ -141,6 +142,8 @@ Ions& Ions::add_ion_type_recpot(std::string filename)
     const double _hartree_to_ev = 27.2113834279111; 
     // open file
     std::ifstream f(filename);
+    if (not f.good())
+        throw std::runtime_error("problem opening file:  "+filename+"\n");
     // count lines
     std::string line;
     size_t num_lines = 0;
