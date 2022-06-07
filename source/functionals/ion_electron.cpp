@@ -3,6 +3,7 @@
 
 #include "ion_electron.hpp"
 #include "fourier.hpp"
+#include "lattice_sum.hpp"
 #include <algorithm>
 
 namespace profess
