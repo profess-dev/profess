@@ -62,7 +62,7 @@ public:
 
     System& add_hartree_functional();
     System& add_huang_carter_functional(double den0);
-    System& add_ion_electron_functional();
+    System& add_ion_electron_functional(int spline_order=-1);
     System& add_luo_karasiev_trickey_functional(double a=1.3,
                                                 double tiny_den=1e-12);
     System& add_libxc_functional(std::vector<int> xc_func_ids);

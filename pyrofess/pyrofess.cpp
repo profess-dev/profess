@@ -408,10 +408,17 @@ PYBIND11_MODULE(profess, m) {
 
                 Add ion-electron interaction functional.
 
+                Parameters
+                ----------
+                spline_order : int, optional
+                    Allowed values are -1 (the default), which utilizes the standard
+                    quadratic scaling approach, or ...
+
                 Returns
                 -------
                 system : profess.System
-            )")
+            )",
+            py::arg("spline_order")=-1)
 
         .def(
             "add_luo_karasiev_trickey_functional",

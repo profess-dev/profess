@@ -106,9 +106,15 @@ class TestFunctional(unittest.TestCase):
                                [7.5, 0.0, 0.0]])
         ion_type_ids = np.array([0, 1], dtype='int')
         ions.set_ions(xyz_coords, ion_type_ids)
+        exact_energy = 30.0
         energy, potential = \
             profess.IonElectron(shape, box, ions).energy_potential(density)
-        exact_energy = 30.0 
+        self.assertAlmostEqual(energy, exact_energy, places=2)
+        energy, potential = \
+            profess.IonElectron(shape, box, ions, 12).energy_potential(density)
+        self.assertAlmostEqual(energy, exact_energy, places=2)
+        energy, potential = \
+            profess.IonElectron(shape, box, ions, 16).energy_potential(density)
         self.assertAlmostEqual(energy, exact_energy, places=2)
         # compute and test stress
         vectors = np.asarray(box.vectors())

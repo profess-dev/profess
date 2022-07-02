@@ -9,10 +9,14 @@
 namespace profess
 {
 
-IonElectron::IonElectron(std::array<size_t,3> grid_shape, Box box, Ions ions)
+IonElectron::IonElectron(
+        std::array<size_t,3> grid_shape,
+        Box box, Ions ions,
+        int spline_order)
     : Functional::Functional(box),
       _potential(grid_shape),
-      _ions(ions)
+      _ions(ions),
+      _spline_order(spline_order)
 {
     _update_potential();
 }
@@ -177,7 +181,8 @@ void IonElectron::_update_potential()
             loc,
             [this, i](double x, double y, double z) {
                 return _ions.ft_potentials()[i](std::sqrt(x*x+y*y+z*z));
-            });
+            },
+            _spline_order);
     }
 }
 
