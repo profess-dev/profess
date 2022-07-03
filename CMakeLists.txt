@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 project(profess LANGUAGES CXX Fortran)
 
 set(BUILD_SHARED_LIBS ON)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #add_compile_options(-g -Wall -Wextra -pedantic $<$<COMPILE_LANGUAGE:CXX>:-Wfloat-conversion>)
 add_compile_options(-g -Ofast -march=native)
