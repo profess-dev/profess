@@ -28,6 +28,7 @@ private:
     Ions _ions;
     void _update_potential();
     int _spline_order;
+    std::vector<std::array<double,3>> _forces_spline(Double3D den);
 };
 
 }
