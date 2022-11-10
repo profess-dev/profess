@@ -2,8 +2,8 @@
 
 `profess` is a high-performance engine for orbital-free density
 functional theory (OFDFT). While the current (4th) version was 
-developed from scratch, it draws on the innovations powering earlier
-releases.
+developed from scratch, it draws on the innovations powering
+earlier releases.
 
 The `profess` code is predominantly modern C++, which is compiled
 into a library in one of several parallelization modes. In addition,
