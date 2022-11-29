@@ -63,15 +63,8 @@ This fourth version of `PROFESS` is completely new, although it draws on the inn
 
 All together, the new `PROFESS` structure improves usability and facilitates rapid development, while retaining the advantages of compiled code. For example, recent work using orbital-free DFT for crystal structure prediction was enabled by the robust geometry optimizations offered by the Atomic Simulation Environment and would not have been possible with earlier `PROFESS` releases.
 
-# Example application
-
-mention random structure searching too
-
-
 # Acknowledgements
 
-Wojciech Jankowski, Chuin Wei Tan, Thomas Ginnis, Pascal Salzbrenner
-Johannes Dieterich, Florian Libisch
-MolSSI
+The authors gratefully acknowledge Wojciech Jankowski, Chuin Wei Tan, Thomas Ginnis, Pascal Salzbrenner, Johannes Dieterich, and Florian Libisch.
 
 # References
