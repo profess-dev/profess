@@ -12,7 +12,7 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        gnu_version: [7, 8, 9, 10]
+        gnu_version: [9, 10]
     runs-on: ubuntu-latest
     steps:
       - name: Create/activate conda environment and install dependencies
