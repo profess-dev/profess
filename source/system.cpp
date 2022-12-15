@@ -142,13 +142,14 @@ System& System::add_huang_carter_functional(double den0)
     return *this;
 }
 
-System& System::add_ion_electron_functional()
+System& System::add_ion_electron_functional(int spline_order)
 {
     functionals.emplace_back(
             std::make_unique<IonElectron>(
                     electron_density.shape(),
                     box.vectors(),
-                    ions));
+                    ions,
+                    spline_order));
     return *this;
 }
 

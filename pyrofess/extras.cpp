@@ -86,7 +86,12 @@ PYBIND11_MODULE(extras, m) {
     define_functional<Hartree,Box>(m, "Hartree");
     // IonElectron
     py::class_<IonElectron>(m, "IonElectron")
-        .def(py::init<std::array<size_t,3>, Box, Ions>())
+        .def(
+            py::init<std::array<size_t,3>, Box, Ions, int>(),
+            py::arg("grid_shape"),
+            py::arg("box"),
+            py::arg("ions"),
+            py::arg("spline_order")=-1)
         .def("energy", &IonElectron::energy)
         .def("energy_potential", &IonElectron::energy_potential)
         .def("stress", &IonElectron::stress)
