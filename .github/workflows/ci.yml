@@ -10,6 +10,9 @@ on:
 jobs:
 
   build-and-test:
+    strategy:
+      matrix:
+        gnu_version: [9, 10]
     runs-on: ubuntu-latest
     steps:
       - name: Create/activate conda environment and install dependencies
@@ -22,6 +25,10 @@ jobs:
         with:
           submodules: recursive
       - name: Configure and build
+        env:
+          CC: gcc-${{ matrix.gnu_version }}
+          CXX: g++-${{ matrix.gnu_version }}
+          FC: gfortran-${{ matrix.gnu_version }}
         run: |
           eval "$(conda shell.bash hook)" && conda activate profess
           mkdir build && cd build
