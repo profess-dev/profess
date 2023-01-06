@@ -45,9 +45,9 @@ html_css_files = ['custom.css']
 html_title = ''
 html_logo = 'profess.svg'
 
-jupyter_execute_notebooks = 'cache'
-execution_timeout = -1
-execution_excludepatterns = []
+nb_execution_mode = 'cache'
+nb_execution_timeout = -1
+nb_execution_excludepatterns = []
 
 # -- Options for math --------------------------------------------------------
 
