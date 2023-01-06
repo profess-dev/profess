@@ -265,6 +265,20 @@ double System::energy(std::string unit)
     return units::convert_energy(energy, {"h"}, unit);
 }
 
+Double3D System::external_potential()
+{
+    std::cout << "WARNING: external_potential routine is still experimental." << std::endl;
+    Double3D potential(electron_density);
+    for (auto &f : functionals) {
+        if (f->name() == "ion_electron") {
+            double energy;
+            std::tie(energy, potential) = f->energy_potential(electron_density);
+            return potential;
+        }
+    }
+    return potential.fill(0.0);
+}
+
 std::tuple<double, Double3D> System::energy_potential(bool compute_ion_ion)
 {
     double energy, ene;

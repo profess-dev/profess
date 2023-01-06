@@ -93,6 +93,19 @@ PYBIND11_MODULE(profess, m) {
             py::arg("unit")=std::string{"h"})
 
         .def(
+            "external_potential",
+            &System::external_potential,
+            R"(
+                external_potential()
+
+                System external potential.
+
+                Returns
+                -------
+                external_potential : deft_array
+            )")
+
+        .def(
             "enthalpy",
             &System::enthalpy,
             R"(
