@@ -121,13 +121,13 @@ for structure in ['bcc', 'fcc']:
         supercell_matrix = [[2,0,0], [0,2,0], [0,0,2]]
         phonon = Phonopy(unitcell, supercell_matrix, primitive_matrix=np.identity(3), factor=CastepToTHz)
         phonon.generate_displacements(distance=0.01)
-        disps = phonon.get_displacements()
-        supercells = phonon.get_supercells_with_displacements()
+        disps = phonon.displacements
+        supercells = phonon.supercells_with_displacements
 
         # compute forces for all supercells
         set_of_forces = []
         for supercell in supercells:
-            system = build_system(supercell.get_cell(), supercell.get_positions())
+            system = build_system(supercell.cell, supercell.positions)
             forces = np.array(system.forces())*27.2114/0.529177
             drift_force = forces.sum(axis=0)
             for j, _ in enumerate(forces):
@@ -156,9 +156,9 @@ for structure in ['bcc', 'fcc']:
 
     # extract gibbs energies
     if structure=='bcc':
-        gibbs_bcc = qha.get_gibbs_temperature()
+        gibbs_bcc = qha.gibbs_temperature
     elif structure=='fcc':
-        gibbs_fcc = qha.get_gibbs_temperature()
+        gibbs_fcc = qha.gibbs_temperature
 
 plt.plot(temperatures[:-1], gibbs_bcc, label='bcc')
 plt.plot(temperatures[:-1], gibbs_fcc, label='fcc')
